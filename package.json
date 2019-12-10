@@ -32,10 +32,7 @@
     "typescript": "^3.7.2"
   },
   "activationEvents": [
-    "onLanguage:typescript",
-    "onLanguage:typescriptreact",
-    "workspaceContains:**/.denorc",
-    "workspaceContains:**/.denoignore"
+    "onLanguage:typescript"
   ],
   "contributes": {
     "typescriptServerPlugins": [
@@ -53,25 +50,10 @@
           "default": true,
           "description": "Enable Deno"
         },
-        "deno.packageManager": {
-          "type": "string",
-          "enum": [
-            "npm",
-            "yarn",
-            "pnpm"
-          ],
-          "default": "npm",
-          "description": "The package manager you use to install node modules."
-        },
         "deno.alwaysShowStatus": {
           "type": "boolean",
           "default": true,
           "description": "Always show the Deno status bar item."
-        },
-        "deno.autoFmtOnSave": {
-          "type": "boolean",
-          "default": false,
-          "description": "Turns auto format on save on or off."
         },
         "deno.dtsPath": {
           "type": [
