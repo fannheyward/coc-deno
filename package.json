@@ -61,6 +61,18 @@
           "description": "The Path of TypeScript declaration file(.d.ts)"
         }
       }
-    }
+    },
+    "commands": [
+      {
+        "command": "deno.fetch",
+        "title": "Run `deno fetch` on current file",
+        "category": "deno"
+      },
+      {
+        "command": "deno.types",
+        "title": "Run `deno types` to generate `lib.deno_runtime.d.ts`",
+        "category": "deno"
+      }
+    ]
   }
 }
