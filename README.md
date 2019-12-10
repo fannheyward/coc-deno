@@ -6,6 +6,15 @@ Deno extension for coc.nvim
 
 `:CocInstall coc-deno`
 
+## Configurations
+
+- `deno.enable`: enable/disable coc-deno
+- `deno.dtsPath`: path of TypeScript declaration file(.d.ts)
+
+## Commands
+
+- `deno.fetch`: run `deno fetch` on current file
+
 ## License
 
 MIT
