@@ -1,57 +1,11 @@
-import { exec } from 'child_process';
-import { Uri, commands, ExtensionContext, extensions, workspace, WorkspaceConfiguration } from 'coc.nvim';
+import { commands, ExtensionContext, extensions, workspace, WorkspaceConfiguration } from 'coc.nvim';
 import * as path from 'path';
-import { promisify } from 'util';
-
-const execPromise = promisify(exec);
+import { denoFetch, denoTypes, getVersion } from './commands';
 
 const typeScriptExtensionId = 'coc-tsserver';
 const denoExtensionId = 'coc-deno';
 const pluginId = 'typescript-deno-plugin';
 const configurationSection = 'deno';
-
-export interface DenoVersion {
-  deno: string;
-  v8: string;
-  typescript: string;
-  raw: string;
-}
-
-function denoBin(): string {
-  return process.platform === 'win32' ? 'deno.exe' : 'deno';
-}
-
-async function getVersion(): Promise<DenoVersion | undefined> {
-  const { stdout, stderr } = await execPromise(`${denoBin()} eval "console.log(JSON.stringify(Deno.version))"`);
-  if (stderr) {
-    return;
-  }
-
-  const { deno, v8, typescript } = JSON.parse(stdout);
-
-  return {
-    deno,
-    v8,
-    typescript,
-    raw: `deno: ${deno}\nv8: ${v8}\ntypescript: ${typescript}`
-  };
-}
-
-async function denoFetch(): Promise<void> {
-  const doc = await workspace.document;
-  if (!doc) {
-    return;
-  }
-
-  const _uri = Uri.parse(doc.uri).fsPath;
-  await execPromise(`${denoBin()} fetch ${_uri}`);
-
-  await workspace.nvim.command('edit');
-}
-
-async function denoTypes(): Promise<void> {
-  const { stdout, stderr } = await execPromise(`${denoBin()} types`);
-}
 
 interface SynchronizedConfiguration {
   alwaysShowStatus?: boolean;
@@ -141,7 +95,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   synchronizeConfiguration(api);
 
   const outputChannel = workspace.createOutputChannel(configurationSection);
-  const disposables = [outputChannel, commands.registerCommand('deno.fetch', denoFetch)];
+  const disposables = [outputChannel, commands.registerCommand('deno.fetch', denoFetch), commands.registerCommand('deno.types', denoTypes)];
   context.subscriptions.push(...disposables);
 
   const version = await getVersion();
