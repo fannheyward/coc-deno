@@ -1,11 +1,31 @@
-import { commands, ExtensionContext, extensions, workspace, WorkspaceConfiguration } from 'coc.nvim';
+import { CodeAction, CodeActionProvider, commands, ExtensionContext, extensions, languages, workspace, WorkspaceConfiguration } from 'coc.nvim';
 import * as path from 'path';
+import { CodeActionContext, Range, TextDocument } from 'vscode-languageserver-protocol';
 import { denoCache, denoInfo, denoTypes } from './commands';
 
 const typeScriptExtensionId = 'coc-tsserver';
 const denoExtensionId = 'coc-deno';
 const pluginId = 'typescript-deno-plugin';
 const configurationSection = 'deno';
+
+class DenoCacheActionProvider implements CodeActionProvider {
+  public async provideCodeActions(document: TextDocument, _range: Range, context: CodeActionContext) {
+    const actions: CodeAction[] = [];
+    for (const diagnostic of context.diagnostics) {
+      if (diagnostic.message.includes('https://deno.land')) {
+        actions.push({
+          title: `Run 'deno cache' to fix importing error`,
+          command: {
+            title: `deno cache`,
+            command: `deno.cache`,
+            arguments: [document.uri],
+          },
+        });
+      }
+    }
+    return actions;
+  }
+}
 
 interface SynchronizedConfiguration {
   alwaysShowStatus?: boolean;
@@ -96,6 +116,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const outputChannel = workspace.createOutputChannel(configurationSection);
   const disposables = [outputChannel, commands.registerCommand('deno.cache', denoCache), commands.registerCommand('deno.types', denoTypes)];
   context.subscriptions.push(...disposables);
+
+  const provider = new DenoCacheActionProvider();
+  context.subscriptions.push(languages.registerCodeActionProvider(['typescript'], provider, 'deno'));
 
   const info = await denoInfo();
   outputChannel.appendLine(info);

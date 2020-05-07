@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { Uri, workspace } from 'coc.nvim';
+import { commands, Uri, workspace } from 'coc.nvim';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
@@ -39,22 +39,29 @@ export async function denoInfo(): Promise<string> {
   }
 }
 
-export async function denoCache(): Promise<void> {
-  const doc = await workspace.document;
-  if (!doc) {
-    return;
-  }
+export async function denoCache(uri?: any): Promise<void> {
   const bin = denoBin();
   if (!bin) {
     return;
   }
 
-  try {
-    const _uri = Uri.parse(doc.uri).fsPath;
-    await execPromise(`${bin} cache ${_uri}`);
+  if (!uri) {
+    const doc = await workspace.document;
+    if (!doc) {
+      return;
+    }
+    uri = doc.uri;
+  }
 
-    await workspace.nvim.command('edit');
-  } catch {}
+  try {
+    uri = Uri.parse(uri).fsPath;
+    workspace.showMessage(`deno cache ${uri}...`);
+    await execPromise(`${bin} cache ${uri}`);
+
+    await commands.executeCommand('editor.action.restart');
+  } catch {
+    workspace.showMessage(`deno cache failed: ${uri}`, 'error');
+  }
 }
 
 function getDenoDir(): string {
