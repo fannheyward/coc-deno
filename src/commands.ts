@@ -7,13 +7,6 @@ import which from 'which';
 
 const execPromise = promisify(exec);
 
-export interface DenoVersion {
-  deno: string;
-  v8: string;
-  typescript: string;
-  raw: string;
-}
-
 function denoBin(): string | undefined {
   const bin = process.platform === 'win32' ? 'deno.exe' : 'deno';
   if (!which.sync(bin, { nothrow: true })) {
@@ -23,28 +16,26 @@ function denoBin(): string | undefined {
   return bin;
 }
 
-export async function getVersion(): Promise<DenoVersion | undefined> {
+export async function denoInfo(): Promise<string> {
   const bin = denoBin();
-  if (!bin) {
-    return;
-  }
+  if (!bin) return 'No deno found';
 
   try {
-    const { stdout, stderr } = await execPromise(`${bin} eval "console.log(JSON.stringify(Deno.version))"`);
-    if (stderr) {
-      return;
+    const version = await execPromise(`${bin} --version`);
+    if (version.stderr) {
+      return `deno version failed: \n${version.stderr}`;
     }
 
-    const { deno, v8, typescript } = JSON.parse(stdout);
+    const info = await execPromise(`${bin} info`);
+    if (info.stderr) {
+      return `${version.stdout}\ndeno info failed:\n${info.stderr}`;
+    }
 
-    return {
-      deno,
-      v8,
-      typescript,
-      raw: `deno: ${deno}\nv8: ${v8}\ntypescript: ${typescript}`,
-    };
+    // https://stackoverflow.com/a/29497680/380774
+    const infoStr = info.stdout.replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+    return `${version.stdout}\n${infoStr}`;
   } catch {
-    return;
+    return 'deno info failed';
   }
 }
 

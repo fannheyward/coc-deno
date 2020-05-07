@@ -1,6 +1,6 @@
 import { commands, ExtensionContext, extensions, workspace, WorkspaceConfiguration } from 'coc.nvim';
 import * as path from 'path';
-import { denoCache, denoTypes, getVersion } from './commands';
+import { denoCache, denoInfo, denoTypes } from './commands';
 
 const typeScriptExtensionId = 'coc-tsserver';
 const denoExtensionId = 'coc-deno';
@@ -97,8 +97,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const disposables = [outputChannel, commands.registerCommand('deno.cache', denoCache), commands.registerCommand('deno.types', denoTypes)];
   context.subscriptions.push(...disposables);
 
-  const version = await getVersion();
-  if (version) {
-    outputChannel.appendLine(version.raw);
-  }
+  const info = await denoInfo();
+  outputChannel.appendLine(info);
 }
