@@ -9,10 +9,10 @@
   dependencies:
     msgpack-lite "^0.1.26"
 
-"@types/node@^13.11.1":
-  version "13.13.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.4.tgz#1581d6c16e3d4803eb079c87d4ac893ee7501c2c"
-  integrity sha512-x26ur3dSXgv5AwKS0lNfbjpCakGIduWU1DU91Zz58ONRWrIKGunmZBNv4P7N+e27sJkiGDsw/3fT4AtsqQBrBA==
+"@types/node@^13.13.5":
+  version "13.13.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.5.tgz#96ec3b0afafd64a4ccea9107b75bf8489f0e5765"
+  integrity sha512-3ySmiBYJPqgjiHA7oEaIo2Rzz0HrOZ7yrNO5HWyaE5q0lQ3BppDZ3N53Miz8bw2I7gh1/zir2MGVZBvpb1zq9g==
 
 "@types/which@^1.3.2":
   version "1.3.2"
@@ -1435,6 +1435,11 @@ import-local@2.0.0:
   dependencies:
     pkg-dir "^3.0.0"
     resolve-cwd "^2.0.0"
+
+import-maps@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/import-maps/-/import-maps-0.2.1.tgz#ca641bf85c21077a186df1461008b8dc8867fedb"
+  integrity sha512-JUHl+ZpG8T/GTU4IIx2eno4T4wqbIiRU4XXPeCk8j+iXD4uZT60SAbrvOqu5Xc/Zo5+Hw2fO0A0760b28z2HuQ==
 
 imurmurhash@^0.1.4:
   version "0.1.4"
@@ -3105,12 +3110,13 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-deno-plugin@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/typescript-deno-plugin/-/typescript-deno-plugin-1.6.0.tgz#dbcf1a806fd47e5a97f4b1348472caef13024369"
-  integrity sha512-to6fHBi4P9saJiF91PLo2M8Wt7CVakCCSMGHJGi2zAZnZaBEM2LE53q68hn66j538BHE73roArVHRVLGcdclOA==
+typescript-deno-plugin@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/typescript-deno-plugin/-/typescript-deno-plugin-1.10.0.tgz#f76f519e2a6da3d6f97cd6ac48589f7fd7bb4146"
+  integrity sha512-8rnOjWlO5PbwETjr5f8/t1giFgIwA8tXiwueHp5dTBB0XBTc4eK/AonrGA1hoBM51dgI4ebllGIDRDnaN90jOg==
   dependencies:
     crypto "^1.0.1"
+    import-maps "^0.2.1"
     merge-deep "^3.0.2"
     mock-require "^3.0.3"
 
