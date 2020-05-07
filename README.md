@@ -13,7 +13,7 @@ Deno extension for coc.nvim
 
 ## Commands
 
-- `deno.fetch`: `deno fetch` on current file
+- `deno.cache`: `deno cache` on current file
 - `deno.types`: `deno types` to generate `lib.deno_runtime.d.ts`
 
 ## License
@@ -21,4 +21,5 @@ Deno extension for coc.nvim
 MIT
 
 ---
+
 > This extension is created by [create-coc-extension](https://github.com/fannheyward/create-coc-extension)

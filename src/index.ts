@@ -1,6 +1,6 @@
 import { commands, ExtensionContext, extensions, workspace, WorkspaceConfiguration } from 'coc.nvim';
 import * as path from 'path';
-import { denoFetch, denoTypes, getVersion } from './commands';
+import { denoCache, denoTypes, getVersion } from './commands';
 
 const typeScriptExtensionId = 'coc-tsserver';
 const denoExtensionId = 'coc-deno';
@@ -61,7 +61,6 @@ function synchronizeConfiguration(api: any): void {
 }
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  console.error(1);
   const enabled = workspace.getConfiguration(configurationSection).get('enable', true);
   if (!enabled) {
     return;
@@ -83,7 +82,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   workspace.onDidChangeConfiguration(
-    e => {
+    (e) => {
       if (e.affectsConfiguration(configurationSection)) {
         synchronizeConfiguration(api);
       }
@@ -95,7 +94,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   synchronizeConfiguration(api);
 
   const outputChannel = workspace.createOutputChannel(configurationSection);
-  const disposables = [outputChannel, commands.registerCommand('deno.fetch', denoFetch), commands.registerCommand('deno.types', denoTypes)];
+  const disposables = [outputChannel, commands.registerCommand('deno.cache', denoCache), commands.registerCommand('deno.types', denoTypes)];
   context.subscriptions.push(...disposables);
 
   const version = await getVersion();

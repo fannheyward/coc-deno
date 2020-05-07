@@ -67,8 +67,8 @@
     },
     "commands": [
       {
-        "command": "deno.fetch",
-        "title": "Run `deno fetch` on current file",
+        "command": "deno.cache",
+        "title": "Run `deno cache` on current file",
         "category": "deno"
       },
       {

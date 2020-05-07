@@ -41,14 +41,14 @@ export async function getVersion(): Promise<DenoVersion | undefined> {
       deno,
       v8,
       typescript,
-      raw: `deno: ${deno}\nv8: ${v8}\ntypescript: ${typescript}`
+      raw: `deno: ${deno}\nv8: ${v8}\ntypescript: ${typescript}`,
     };
   } catch {
     return;
   }
 }
 
-export async function denoFetch(): Promise<void> {
+export async function denoCache(): Promise<void> {
   const doc = await workspace.document;
   if (!doc) {
     return;
@@ -60,7 +60,7 @@ export async function denoFetch(): Promise<void> {
 
   try {
     const _uri = Uri.parse(doc.uri).fsPath;
-    await execPromise(`${bin} fetch ${_uri}`);
+    await execPromise(`${bin} cache ${_uri}`);
 
     await workspace.nvim.command('edit');
   } catch {}
@@ -112,4 +112,3 @@ export async function denoTypes(): Promise<void> {
     fs.writeFileSync(path.resolve(denoDir, 'lib.deno_runtime.d.ts'), stdout);
   } catch {}
 }
-
