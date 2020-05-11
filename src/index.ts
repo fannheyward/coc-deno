@@ -1,5 +1,4 @@
 import { CodeAction, CodeActionProvider, commands, ExtensionContext, extensions, languages, workspace, WorkspaceConfiguration } from 'coc.nvim';
-import * as path from 'path';
 import { CodeActionContext, Range, TextDocument } from 'vscode-languageserver-protocol';
 import { denoCache, denoInfo, denoTypes } from './commands';
 
@@ -31,15 +30,8 @@ interface SynchronizedConfiguration {
   alwaysShowStatus?: boolean;
   autoFmtOnSave?: boolean;
   enable?: boolean;
-  dtsPath?: string;
-}
-
-function bundledDtsPath(): string {
-  const extension = extensions.getExtension(denoExtensionId).extension;
-  if (!extension) {
-    return '';
-  }
-  return path.resolve(extension.extensionPath, 'node_modules', pluginId, 'lib', 'lib.deno_runtime.d.ts');
+  importmap?: string;
+  tsconfig?: string;
 }
 
 function withConfigValue<C, K extends Extract<keyof C, string>>(config: WorkspaceConfiguration, outConfig: C, key: K): void {
@@ -66,11 +58,8 @@ function getConfiguration(): SynchronizedConfiguration {
   withConfigValue(config, outConfig, 'enable');
   withConfigValue(config, outConfig, 'alwaysShowStatus');
   withConfigValue(config, outConfig, 'autoFmtOnSave');
-  withConfigValue(config, outConfig, 'dtsPath');
-
-  if (!outConfig.dtsPath) {
-    outConfig.dtsPath = bundledDtsPath();
-  }
+  withConfigValue(config, outConfig, 'importmap');
+  withConfigValue(config, outConfig, 'tsconfig');
 
   return outConfig;
 }

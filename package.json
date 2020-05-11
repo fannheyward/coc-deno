@@ -56,13 +56,21 @@
           "default": true,
           "description": "Enable Deno"
         },
-        "deno.dtsPath": {
+        "deno.tsconfig": {
           "type": [
             "string",
             "null"
           ],
           "default": null,
-          "description": "The Path of TypeScript declaration file(.d.ts)"
+          "description": "The location to tsconfig.json"
+        },
+        "deno.importmap": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "description": "The Path of import maps."
         }
       }
     },
@@ -74,7 +82,7 @@
       },
       {
         "command": "deno.types",
-        "title": "Run `deno types` to generate `lib.deno_runtime.d.ts`",
+        "title": "Run `deno types` to generate `lib.deno.d.ts`",
         "category": "deno"
       }
     ]
