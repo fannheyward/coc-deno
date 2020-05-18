@@ -748,11 +748,6 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-crypto@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/crypto/-/crypto-1.0.1.tgz#2af1b7cad8175d24c8a1b0778255794a21803037"
-  integrity sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==
-
 cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
@@ -3097,12 +3092,11 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-deno-plugin@^1.24.0:
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/typescript-deno-plugin/-/typescript-deno-plugin-1.24.0.tgz#79ae5b78fb6214b11633c743d2cb3ec9549020d3"
-  integrity sha512-oEnzASeoSV0ZA6o7WJOe9hoIqtqC3khjPlz8lZGrDphtcgjaNvhs77ey89m1Nx+SYR2VC0tvYeI2CYvG/amX4g==
+typescript-deno-plugin@^1.27.0:
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/typescript-deno-plugin/-/typescript-deno-plugin-1.27.0.tgz#708da6497d2164c094032e23dedbed38719130ba"
+  integrity sha512-XHVriU6vJxntHMARPI/9bkDxCy1Ojcn72P5l6E1mwbVLqCLCilocEzVZonKRe3gBQ7SHDeNKOLaCz5NJJec2JQ==
   dependencies:
-    crypto "^1.0.1"
     import-maps "^0.2.1"
     merge-deep "^3.0.2"
 

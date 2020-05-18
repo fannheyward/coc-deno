@@ -23,7 +23,7 @@
     "prepare": "npm-run-all clean build"
   },
   "dependencies": {
-    "typescript-deno-plugin": "^1.24.0"
+    "typescript-deno-plugin": "^1.27.0"
   },
   "devDependencies": {
     "@types/node": "^14.0.1",
