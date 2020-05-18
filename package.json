@@ -64,6 +64,11 @@
           "default": null,
           "description": "The location to tsconfig.json"
         },
+        "deno.unstable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Deno unstable features."
+        },
         "deno.importmap": {
           "type": [
             "string",

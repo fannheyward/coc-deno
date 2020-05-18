@@ -102,7 +102,11 @@ export async function denoTypes(): Promise<void> {
   }
 
   try {
-    const { stdout, stderr } = await execPromise(`${bin} types`);
+    const args = ['types'];
+    const unstable = workspace.getConfiguration('deno').get('unstable') as boolean;
+    if (unstable) args.push('--unstable');
+
+    const { stdout, stderr } = await execPromise(`${bin} ${args.join(' ')}`);
     if (stderr) {
       return;
     }

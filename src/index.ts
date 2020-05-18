@@ -32,6 +32,7 @@ interface SynchronizedConfiguration {
   enable?: boolean;
   importmap?: string;
   tsconfig?: string;
+  unstable?: boolean;
 }
 
 function withConfigValue<C, K extends Extract<keyof C, string>>(config: WorkspaceConfiguration, outConfig: C, key: K): void {
@@ -60,6 +61,7 @@ function getConfiguration(): SynchronizedConfiguration {
   withConfigValue(config, outConfig, 'autoFmtOnSave');
   withConfigValue(config, outConfig, 'importmap');
   withConfigValue(config, outConfig, 'tsconfig');
+  withConfigValue(config, outConfig, 'unstable');
 
   return outConfig;
 }
