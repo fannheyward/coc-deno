@@ -1,6 +1,6 @@
 # coc-deno
 
-Deno extension for coc.nvim
+Deno extension for coc.nvim, using [typescript-deno-plugin](https://github.com/justjavac/typescript-deno-plugin).
 
 ## Install
 
