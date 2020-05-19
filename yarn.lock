@@ -3092,10 +3092,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript-deno-plugin@^1.27.0:
-  version "1.27.0"
-  resolved "https://registry.yarnpkg.com/typescript-deno-plugin/-/typescript-deno-plugin-1.27.0.tgz#708da6497d2164c094032e23dedbed38719130ba"
-  integrity sha512-XHVriU6vJxntHMARPI/9bkDxCy1Ojcn72P5l6E1mwbVLqCLCilocEzVZonKRe3gBQ7SHDeNKOLaCz5NJJec2JQ==
+typescript-deno-plugin@^1.29.0:
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/typescript-deno-plugin/-/typescript-deno-plugin-1.29.0.tgz#7a7d0735b53292380c07a10e89778e5e7c45a346"
+  integrity sha512-3GhWWhN0pPWWzrBLKPp2c4LNbR5urJbE3Yi7ScuyUM/wZg9n+B8H9LkEZpBskoEq4hDfN2YCMFzcmaGat56fQA==
   dependencies:
     import-maps "^0.2.1"
     merge-deep "^3.0.2"
