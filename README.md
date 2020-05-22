@@ -4,7 +4,7 @@ Deno extension for coc.nvim, using [typescript-deno-plugin](https://github.com/j
 
 ## Install
 
-`:CocInstall coc-deno`
+`:CocInstall coc-tsserver coc-deno`
 
 ## Commands
 
