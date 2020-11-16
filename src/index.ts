@@ -1,9 +1,9 @@
 import { CodeAction, CodeActionProvider, commands, ExtensionContext, extensions, languages, workspace, WorkspaceConfiguration } from 'coc.nvim';
-import { CodeActionContext, Range, TextDocument } from 'vscode-languageserver-protocol';
+import { CodeActionContext, Range } from 'vscode-languageserver-protocol';
+import { TextDocument } from 'vscode-languageserver-textdocument'
 import { denoCache, denoInfo, denoTypes } from './commands';
 
 const typeScriptExtensionId = 'coc-tsserver';
-const denoExtensionId = 'coc-deno';
 const pluginId = 'typescript-deno-plugin';
 const configurationSection = 'deno';
 
