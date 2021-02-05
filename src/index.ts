@@ -1,6 +1,4 @@
-import { CodeAction, CodeActionProvider, commands, ExtensionContext, extensions, languages, workspace, WorkspaceConfiguration } from 'coc.nvim';
-import { CodeActionContext, Range } from 'vscode-languageserver-protocol';
-import { TextDocument } from 'vscode-languageserver-textdocument'
+import { CodeAction, CodeActionContext, CodeActionProvider, commands, ExtensionContext, extensions, languages, Range, TextDocument, window, workspace, WorkspaceConfiguration } from 'coc.nvim';
 import { denoCache, denoInfo, denoTypes } from './commands';
 
 const typeScriptExtensionId = 'coc-tsserver';
@@ -77,7 +75,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     return;
   }
 
-  const extension = extensions.getExtension(typeScriptExtensionId).extension;
+  const extension = extensions.all.find(e => e.id === typeScriptExtensionId)
   if (!extension) {
     return;
   }
@@ -104,7 +102,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   synchronizeConfiguration(api);
 
-  const outputChannel = workspace.createOutputChannel(configurationSection);
+  const outputChannel = window.createOutputChannel(configurationSection);
   const disposables = [outputChannel, commands.registerCommand('deno.cache', denoCache), commands.registerCommand('deno.types', denoTypes)];
   context.subscriptions.push(...disposables);
 

@@ -1,5 +1,5 @@
 import { exec } from 'child_process';
-import { commands, Uri, workspace } from 'coc.nvim';
+import { commands, Uri, window, workspace } from 'coc.nvim';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
@@ -55,12 +55,12 @@ export async function denoCache(uri?: any): Promise<void> {
 
   try {
     uri = Uri.parse(uri).fsPath;
-    workspace.showMessage(`deno cache ${uri}...`);
+    window.showMessage(`deno cache ${uri}...`);
     await execPromise(`${bin} cache ${uri}`);
 
     await commands.executeCommand('editor.action.restart');
   } catch {
-    workspace.showMessage(`deno cache failed: ${uri}`, 'error');
+    window.showMessage(`deno cache failed: ${uri}`, 'error');
   }
 }
 
