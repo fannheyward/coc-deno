@@ -1,6 +1,7 @@
 # coc-deno
 
-Deno extension for coc.nvim, using [typescript-deno-plugin](https://github.com/justjavac/typescript-deno-plugin).
+Deno extension for coc.nvim, fored from
+[vscode_deno](https://github.com/denoland/vscode_deno).
 
 ## Install
 
@@ -8,8 +9,9 @@ Deno extension for coc.nvim, using [typescript-deno-plugin](https://github.com/j
 
 ## Commands
 
-- `deno.cache`: `deno cache` on current file
-- `deno.types`: `deno types` to generate `lib.deno.d.ts`
+- `deno.cache`: Cache Dependencies
+- `deno.status`: Display language server status
+- `deno.initializeWorkspace`: Initialize workspace configuration for Deno
 
 ## License
 
@@ -17,4 +19,5 @@ MIT
 
 ---
 
-> This extension is created by [create-coc-extension](https://github.com/fannheyward/create-coc-extension)
+> This extension is built with
+> [create-coc-extension](https://github.com/fannheyward/create-coc-extension)

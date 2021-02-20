@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2019",
+    "target": "es2017",
     "lib": [
+      "ES2017",
+      "ES2018",
       "ES2019"
     ],
     "outDir": "out",
@@ -16,13 +18,5 @@
   "exclude": [
     "node_modules",
     ".vscode-test"
-  ],
-  "references": [
-    {
-      "path": "./client"
-    },
-    {
-      "path": "./typescript-deno-plugin"
-    }
   ]
 }

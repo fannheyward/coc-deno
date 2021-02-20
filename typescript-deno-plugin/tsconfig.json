@@ -8,21 +8,13 @@
     "outDir": "out",
     "rootDir": "src",
     "sourceMap": true,
-    "strict": true
+    "strict": true,
   },
   "include": [
-    "src"
+    "src",
+    "../client/src/interfaces.d.ts"
   ],
   "exclude": [
-    "node_modules",
-    ".vscode-test"
-  ],
-  "references": [
-    {
-      "path": "./client"
-    },
-    {
-      "path": "./typescript-deno-plugin"
-    }
+    "node_modules"
   ]
 }

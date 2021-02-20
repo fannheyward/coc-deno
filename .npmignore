@@ -4,6 +4,8 @@ tsconfig.json
 *.map
 .tags
 .DS_Store
+.github
+esbuild.js
 webpack.config.js
 yarn.lock
 yarn-error.log

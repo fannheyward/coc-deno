@@ -22,6 +22,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+      - uses: denolib/setup-deno@v2
+        with:
+          deno-version: v1.x
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -29,6 +32,8 @@ jobs:
       - name: Install yarn
         run: |
           curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
+          yarn
       - name: yarn build
         run: |
-          yarn
+          yarn fmt
+          yarn lint
