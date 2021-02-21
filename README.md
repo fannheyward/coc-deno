@@ -1,6 +1,6 @@
 # coc-deno
 
-Deno extension for coc.nvim, fored from
+Deno extension for coc.nvim, forked from
 [vscode_deno](https://github.com/denoland/vscode_deno).
 
 ## Install
