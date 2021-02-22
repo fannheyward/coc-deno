@@ -5,7 +5,7 @@ Deno extension for coc.nvim, forked from
 
 ## Install
 
-`:CocInstall coc-tsserver coc-deno`
+`:CocInstall coc-deno`
 
 ## Commands
 
