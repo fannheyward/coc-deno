@@ -5,6 +5,7 @@ tsconfig.json
 .tags
 .DS_Store
 .github
+diff.sh
 esbuild.js
 webpack.config.js
 yarn.lock

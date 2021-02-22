@@ -1,7 +1,7 @@
 // Copyright 2018-2021 the Deno authors. All rights reserved. MIT license.
 
-import { Settings } from "../../client/src/interfaces";
-import * as ts from "../../node_modules/typescript/lib/tsserverlibrary";
+import type { Settings } from "../../client/src/interfaces";
+import type * as ts from "../../node_modules/typescript/lib/tsserverlibrary";
 
 /** Extract the return type from a maybe function. */
 // deno-lint-ignore no-explicit-any
