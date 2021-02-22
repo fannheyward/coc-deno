@@ -59,11 +59,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const extension = extensions.all.find((e) =>
     e.id === TS_LANGUAGE_FEATURES_EXTENSION
   );
-  if (!extension) {
-    return window.showMessage(`${TS_LANGUAGE_FEATURES_EXTENSION} is needed`);
+  if (extension) {
+    await extension.activate();
+    synchronizeConfiguration(extension.exports);
   }
-  await extension.activate();
-  synchronizeConfiguration(extension.exports);
 
   const run: Executable = {
     command: "deno",
@@ -118,7 +117,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
           // information on the event not being reliable.
           { settings: null },
         );
-        synchronizeConfiguration(extension.exports);
+        if (extension) {
+          synchronizeConfiguration(extension.exports);
+        }
       }
     }),
     // Register a content provider for Deno resolved read-only files.
