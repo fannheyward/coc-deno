@@ -7,6 +7,8 @@ import {
   extensions,
   LanguageClient,
   LanguageClientOptions,
+  Location,
+  LocationLink,
   Thenable,
   window,
   workspace,
@@ -53,6 +55,16 @@ function getSettings(): Settings {
   return result;
 }
 
+function handleDataURL(u: string): string {
+  // 1.7.4 LS returns deno:///https/deno.land/std@0.85.0/http/server.ts
+  // 1.7.5 LS returns deno:/https/deno.land/std%400.85.0/http/server.ts
+  // coc only handles deno://
+  if (u.startsWith(`${EXTENSION_NS}`) && u.slice(6, 7) !== "/") {
+    return u.replace(`${EXTENSION_NS}:`, `${EXTENSION_NS}://`);
+  }
+  return u;
+}
+
 let client: LanguageClient;
 
 export async function activate(context: ExtensionContext): Promise<void> {
@@ -87,11 +99,42 @@ export async function activate(context: ExtensionContext): Promise<void> {
     diagnosticCollectionName: "deno",
     initializationOptions: getSettings(),
     middleware: {
+      provideImplementation: async (document, position, token, next) => {
+        const imp = await next(document, position, token);
+        if (!imp) return;
+        if (Array.isArray(imp)) {
+          for (const l of imp) {
+            if (Location.is(l)) {
+              l.uri = handleDataURL(l.uri);
+            } else {
+              l.targetUri = handleDataURL(l.targetUri);
+            }
+          }
+        } else {
+          imp.uri = handleDataURL(imp.uri);
+        }
+        return imp;
+      },
+      provideReferences: async (document, position, options, token, next) => {
+        const refs = await next(document, position, options, token);
+        if (!refs) return;
+        for (const r of refs) {
+          r.uri = handleDataURL(r.uri);
+        }
+        return refs;
+      },
       provideDefinition: async (document, position, token, next) => {
         if (docSet.has(document.uri)) return;
 
         docSet.add(document.uri);
         const def = await next(document, position, token);
+        if (def && Array.isArray(def)) {
+          for (const d of def) {
+            if (LocationLink.is(d)) {
+              d.targetUri = handleDataURL(d.targetUri);
+            }
+          }
+        }
         docSet.delete(document.uri);
         return def;
       },
