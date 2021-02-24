@@ -6,6 +6,7 @@
 import {
   commands,
   ExtensionContext,
+  extensions,
   LanguageClient,
   Location,
   Position,
@@ -13,7 +14,7 @@ import {
   window,
   workspace,
 } from "coc.nvim";
-import { EXTENSION_NS } from "./constants";
+import { EXTENSION_NS, PRETTIER_EXTENSION } from "./constants";
 import { cache as cacheReq, virtualTextDocument } from "./lsp_extensions";
 
 export declare type DocumentUri = string;
@@ -54,13 +55,21 @@ export function initializeWorkspace(): Callback {
     const title = "Initialize Deno Project";
     const linting = "Enable Deno linting?";
     const unstable = "Enable Deno unstable APIs?";
+    const prettier = "Didsable coc-prettier for current project?";
     const items = [linting, unstable];
+    if (extensions.all.find((e) => e.id === PRETTIER_EXTENSION)) {
+      items.push(prettier);
+    }
     const settings = await window.showPickerDialog(items, title);
     if (!settings) return;
     const config = workspace.getConfiguration(EXTENSION_NS);
     config.update("enable", true);
     config.update("lint", settings.includes(linting));
     config.update("unstable", settings.includes(unstable));
+    if (settings.includes(prettier)) {
+      const prettierConfig = workspace.getConfiguration("prettier");
+      prettierConfig.update("disableLanguages", ["typescript", "javascript"]);
+    }
     window.showMessage("Deno is now setup in this workspace.");
   };
 }

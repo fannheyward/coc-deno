@@ -4,3 +4,4 @@ export const EXTENSION_ID = "denoland.vscode-deno";
 export const EXTENSION_NS = "deno";
 export const EXTENSION_TS_PLUGIN = "typescript-deno-plugin";
 export const TS_LANGUAGE_FEATURES_EXTENSION = "coc-tsserver";
+export const PRETTIER_EXTENSION = "coc-prettier";
