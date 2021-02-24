@@ -10,7 +10,7 @@ Deno extension for coc.nvim, forked from
 ## Usage
 
 1. make sure you have Deno v1.7+ installed `deno --version`
-2. run `:CocCommmand deno.initializeWorkspace` in your project
+2. run `:CocCommand deno.initializeWorkspace` in your project
 
 ## Commands
 
