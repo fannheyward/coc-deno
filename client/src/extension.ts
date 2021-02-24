@@ -56,12 +56,12 @@ function getSettings(): Settings {
 let client: LanguageClient;
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  const extension = extensions.all.find((e) =>
+  const tsserver = extensions.all.find((e) =>
     e.id === TS_LANGUAGE_FEATURES_EXTENSION
   );
-  if (extension) {
-    await extension.activate();
-    synchronizeConfiguration(extension.exports);
+  if (tsserver) {
+    await tsserver.activate();
+    synchronizeConfiguration(tsserver.exports);
   }
 
   const run: Executable = {
@@ -117,8 +117,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
           // information on the event not being reliable.
           { settings: null },
         );
-        if (extension) {
-          synchronizeConfiguration(extension.exports);
+        if (tsserver) {
+          synchronizeConfiguration(tsserver.exports);
         }
       }
     }),
