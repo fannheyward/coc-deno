@@ -55,7 +55,7 @@ export function initializeWorkspace(): Callback {
     const title = "Initialize Deno Project";
     const linting = "Enable Deno linting?";
     const unstable = "Enable Deno unstable APIs?";
-    const prettier = "Didsable coc-prettier for current project?";
+    const prettier = "Disable coc-prettier for current project?";
     const items = [linting, unstable];
     if (extensions.all.find((e) => e.id === PRETTIER_EXTENSION)) {
       items.push(prettier);
