@@ -64,8 +64,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
     synchronizeConfiguration(tsserver.exports);
   }
 
+  const command = workspace.getConfiguration(EXTENSION_NS).get("path", "deno");
   const run: Executable = {
-    command: "deno",
+    command,
     args: ["lsp"],
     // deno-lint-ignore no-undef
     options: { env: { ...process.env, "NO_COLOR": true } },
