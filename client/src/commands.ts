@@ -17,8 +17,6 @@ import {
 import { EXTENSION_NS, PRETTIER_EXTENSION } from "./constants";
 import { cache as cacheReq, virtualTextDocument } from "./lsp_extensions";
 
-export declare type DocumentUri = string;
-
 // deno-lint-ignore no-explicit-any
 export type Callback = (...args: any[]) => unknown;
 export type Factory = (
