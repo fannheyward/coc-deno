@@ -60,6 +60,7 @@ export function initializeWorkspace(): Callback {
     }
     const settings = await window.showPickerDialog(items, title);
     if (!settings) return;
+    await workspace.nvim.command(`CocRestart`, true);
     const config = workspace.getConfiguration(EXTENSION_NS);
     config.update("enable", true);
     config.update("lint", settings.includes(linting));

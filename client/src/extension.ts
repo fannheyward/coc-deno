@@ -56,6 +56,13 @@ function getSettings(): Settings {
 let client: LanguageClient;
 
 export async function activate(context: ExtensionContext): Promise<void> {
+  const registerCommand = createRegisterCommand(context);
+  const enable = workspace.getConfiguration(EXTENSION_NS).get("enable", false);
+  if (!enable) {
+    registerCommand("initializeWorkspace", cmds.initializeWorkspace);
+    return;
+  }
+
   const tsserver = extensions.all.find((e) =>
     e.id === TS_LANGUAGE_FEATURES_EXTENSION
   );
@@ -130,8 +137,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     ),
   );
 
-  // Register any commands.
-  const registerCommand = createRegisterCommand(context);
   registerCommand("cache", cmds.cache);
   registerCommand("status", cmds.status);
   registerCommand("initializeWorkspace", cmds.initializeWorkspace);

@@ -33,8 +33,6 @@
     "typescript": "^4.1.5"
   },
   "activationEvents": [
-    "onCommand:deno.cache",
-    "onCommand:deno.status",
     "onCommand:deno.initializeWorkspace",
     "onLanguage:typescript",
     "onLanguage:typescriptreact",
