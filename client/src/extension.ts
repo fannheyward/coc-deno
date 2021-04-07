@@ -11,6 +11,7 @@ import {
   window,
   workspace,
 } from "coc.nvim";
+import * as semver from "semver";
 import * as cmds from "./commands";
 import {
   EXTENSION_NS,
@@ -26,6 +27,8 @@ function assert(cond: unknown, msg = "Assertion failed."): asserts cond {
     throw new Error(msg);
   }
 }
+
+const SERVER_SEMVER = ">=1.9.0";
 
 const settingsKeys: Array<keyof Settings> = [
   "codeLens",
@@ -154,6 +157,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
   if (serverVersion) {
     statusBarItem.text = `Deno ${serverVersion}`;
     statusBarItem.show();
+  }
+  if (
+    semver.valid(serverVersion) &&
+    !semver.satisfies(serverVersion, SERVER_SEMVER)
+  ) {
+    window.showMessage(
+      `The version of Deno ("${serverVersion}") does not meet the requirements of version ("${SERVER_SEMVER}"), please upgrade Deno.`,
+      "warning",
+    );
   }
 }
 
