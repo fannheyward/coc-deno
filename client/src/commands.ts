@@ -15,7 +15,11 @@ import {
   workspace,
 } from "coc.nvim";
 import { EXTENSION_NS, PRETTIER_EXTENSION } from "./constants";
-import { cache as cacheReq, virtualTextDocument } from "./lsp_extensions";
+import {
+  cache as cacheReq,
+  reloadImportRegistries as reloadImportRegistriesReq,
+  virtualTextDocument,
+} from "./lsp_extensions";
 
 // deno-lint-ignore no-explicit-any
 export type Callback = (...args: any[]) => unknown;
@@ -89,10 +93,10 @@ export function showReferences(): Callback {
  * Deno Language Server. */
 export function status(
   _context: ExtensionContext,
-  _client: LanguageClient,
+  client: LanguageClient,
 ): Callback {
   return async () => {
-    const content = await _client.sendRequest(virtualTextDocument, {
+    const content = await client.sendRequest(virtualTextDocument, {
       textDocument: { uri: "deno:/status.md" },
     });
     window.echoLines(content.split("\n"));
@@ -106,4 +110,11 @@ export function welcome(
   return () => {
     // TODO
   };
+}
+
+export function reloadImportRegistries(
+  _context: ExtensionContext,
+  client: LanguageClient,
+): Callback {
+  return () => client.sendRequest(reloadImportRegistriesReq);
 }

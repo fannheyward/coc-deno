@@ -56,6 +56,12 @@
         "description": "Provide a status document of the language server."
       },
       {
+        "command": "deno.reloadImportRegistries",
+        "title": "Reload Import Registries Cache",
+        "category": "Deno",
+        "description": "Reload any cached import registry responses."
+      },
+      {
         "command": "deno.initializeWorkspace",
         "title": "Initialize Workspace Configuration",
         "category": "Deno",
@@ -174,6 +180,15 @@
           "default": true,
           "scope": "window"
         },
+        "deno.suggest.imports.hosts": {
+          "type": "object",
+          "default": {},
+          "markdownDescription": "Controls which hosts are enabled for import suggestions.",
+          "scope": "window",
+          "examples": {
+            "https://deno.land/": true
+          }
+        },
         "deno.unstable": {
           "type": "boolean",
           "default": false,
@@ -197,6 +212,10 @@
       }
     },
     "jsonValidation": [
+      {
+        "fileMatch": "deno-import-intellisense.json",
+        "url": "./schemas/deno-import-intellisense.schema.json"
+      },
       {
         "fileMatch": [
           "import*map*.json",

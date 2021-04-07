@@ -36,6 +36,7 @@ const settingsKeys: Array<keyof Settings> = [
   "enable",
   "importMap",
   "lint",
+  "suggest",
   "unstable",
 ];
 
@@ -142,6 +143,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   registerCommand("cache", cmds.cache);
   registerCommand("status", cmds.status);
+  registerCommand("reloadImportRegistries", cmds.reloadImportRegistries);
   registerCommand("initializeWorkspace", cmds.initializeWorkspace);
   commands.registerCommand(
     `${EXTENSION_NS}.showReferences`,
