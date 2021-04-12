@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: denolib/setup-deno@v2
+      - uses: denoland/setup-deno@main
         with:
           deno-version: v1.x
       - name: Use Node.js ${{ matrix.node-version }}
