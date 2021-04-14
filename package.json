@@ -182,7 +182,9 @@
         },
         "deno.suggest.imports.hosts": {
           "type": "object",
-          "default": {},
+          "default": {
+            "https://deno.land/": true
+          },
           "markdownDescription": "Controls which hosts are enabled for import suggestions.",
           "scope": "window",
           "examples": {
