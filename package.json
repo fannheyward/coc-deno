@@ -201,6 +201,16 @@
             false
           ]
         },
+        "deno.internalDebug": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Determines if the internal debugging information for the Deno language server will be logged to the _Deno Language Server_ console.",
+          "scope": "window",
+          "examples": [
+            true,
+            false
+          ]
+        },
         "deno.lint": {
           "type": "boolean",
           "default": false,
