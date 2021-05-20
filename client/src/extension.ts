@@ -87,6 +87,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const docSet = new Set<string>();
   const clientOptions: LanguageClientOptions = {
     documentSelector: [
+      { scheme: "file", language: "json" },
+      { scheme: "file", language: "jsonc" },
+      { scheme: "file", language: "markdown" },
       { scheme: "file", language: "javascript" },
       { scheme: "file", language: "javascriptreact" },
       { scheme: "file", language: "typescript" },
