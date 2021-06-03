@@ -45,7 +45,6 @@ export function cache(
         {
           referrer: { uri: document.uri.toString() },
           uris: [],
-          textDocument: { uri: document.uri.toString() },
         },
       );
     });

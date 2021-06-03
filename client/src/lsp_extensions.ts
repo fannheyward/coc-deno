@@ -7,18 +7,31 @@
  * `cli/lsp/language_server.rs` under the method `request_else`.
  */
 
-import { RequestType, RequestType0, TextDocumentIdentifier } from "coc.nvim";
+import {
+  NotificationType,
+  RequestType,
+  RequestType0,
+  TextDocumentIdentifier,
+} from "coc.nvim";
 
 export interface CacheParams {
   referrer: TextDocumentIdentifier;
   uris: TextDocumentIdentifier[];
-  textDocument: TextDocumentIdentifier;
 }
 
 export const cache = new RequestType<CacheParams, boolean, void>("deno/cache");
 
 export const reloadImportRegistries = new RequestType0<boolean, void>(
   "deno/reloadImportRegistries",
+);
+
+export interface RegistryStateParams {
+  origin: string;
+  suggestions: boolean;
+}
+
+export const registryState = new NotificationType<RegistryStateParams>(
+  "deno/registryState",
 );
 
 export interface VirtualTextDocumentParams {

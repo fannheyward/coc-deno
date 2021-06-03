@@ -20,6 +20,7 @@ import {
 } from "./constants";
 import { DenoTextDocumentContentProvider } from "./content_provider";
 import { Settings } from "./interfaces";
+import { registryState, RegistryStateParams } from "./lsp_extensions";
 
 /** Assert that the condition is "truthy", otherwise throw. */
 function assert(cond: unknown, msg = "Assertion failed."): asserts cond {
@@ -158,6 +159,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   context.subscriptions.push(client.start());
   await client.onReady();
+  client.onNotification(registryState, createRegistryStateHandler());
+
   const serverVersion =
     (client.initializeResult?.serverInfo?.version ?? "").split(" ")[0];
   if (serverVersion) {
@@ -194,5 +197,29 @@ function createRegisterCommand(
     const fullName = `${EXTENSION_NS}.${name}`;
     const command = factory(context, client);
     context.subscriptions.push(commands.registerCommand(fullName, command));
+  };
+}
+
+export interface NotificationHandler<P> {
+  (params: P): void;
+}
+
+function createRegistryStateHandler(): NotificationHandler<
+  RegistryStateParams
+> {
+  return async function handler(p) {
+    let enable = false;
+    if (p.suggestions) {
+      const selection = await window.showInformationMessage(
+        `The server "${p.origin}" supports completion suggestions for imports. Do you wish to enable this? (Only do this if you trust "${p.origin}") [Learn More](https://github.com/denoland/vscode_deno/blob/main/docs/ImportCompletions.md)`,
+        "No",
+        "Enable",
+      );
+      enable = selection === "Enable";
+    }
+    const config = workspace.getConfiguration("deno.suggest.imports");
+    const hosts: Record<string, boolean> = config.get("hosts", {});
+    hosts[p.origin] = enable;
+    config.update("hosts", hosts);
   };
 }

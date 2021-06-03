@@ -39,6 +39,7 @@ const defaultSettings: Settings = {
     names: true,
     paths: true,
     imports: {
+      autoDiscover: true,
       hosts: {},
     },
   },
