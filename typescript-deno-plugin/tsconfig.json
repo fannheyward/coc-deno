@@ -8,11 +8,11 @@
     "outDir": "out",
     "rootDir": "src",
     "sourceMap": true,
-    "strict": true,
+    "strict": true
   },
   "include": [
     "src",
-    "../client/src/interfaces.d.ts"
+    "../client/src/types.d.ts"
   ],
   "exclude": [
     "node_modules"

@@ -19,7 +19,7 @@ import {
   TS_LANGUAGE_FEATURES_EXTENSION,
 } from "./constants";
 import { DenoTextDocumentContentProvider } from "./content_provider";
-import { Settings } from "./interfaces";
+import { Settings } from "./types";
 import { registryState, RegistryStateParams } from "./lsp_extensions";
 
 /** Assert that the condition is "truthy", otherwise throw. */
