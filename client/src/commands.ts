@@ -117,7 +117,13 @@ export async function test(uri: string, name: string) {
     testArgs.push("--import-map", String(config.get("importMap")));
   }
   const bin = config.get("path", "deno");
-  const args = ["test", ...testArgs, "--filter", name, Uri.parse(uri).fsPath];
+  const args = [
+    "test",
+    ...testArgs,
+    "--filter",
+    `"${name}"`,
+    Uri.parse(uri).fsPath,
+  ];
 
   if (terminal) {
     terminal.dispose();
