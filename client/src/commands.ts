@@ -76,16 +76,18 @@ export function initializeWorkspace(): Callback {
   };
 }
 
-export function showReferences(): Callback {
-  return (uri: string, position: Position, locations: Location[]) => {
-    if (!uri) return;
-    commands.executeCommand(
-      "editor.action.showReferences",
-      Uri.parse(uri),
-      position,
-      locations,
-    );
-  };
+export function showReferences(
+  uri: string,
+  position: Position,
+  locations: Location[],
+) {
+  if (!uri) return;
+  commands.executeCommand(
+    "editor.action.showReferences",
+    Uri.parse(uri),
+    position,
+    locations,
+  );
 }
 
 /** Open and display the "virtual document" which provides the status of the
