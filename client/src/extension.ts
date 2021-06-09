@@ -150,6 +150,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   registerCommand("status", cmds.status);
   registerCommand("reloadImportRegistries", cmds.reloadImportRegistries);
   registerCommand("initializeWorkspace", cmds.initializeWorkspace);
+  commands.registerCommand(`${EXTENSION_NS}.test`, cmds.test, null, true);
   commands.registerCommand(
     `${EXTENSION_NS}.showReferences`,
     cmds.showReferences,

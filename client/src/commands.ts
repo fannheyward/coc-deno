@@ -10,6 +10,7 @@ import {
   LanguageClient,
   Location,
   Position,
+  Terminal,
   Uri,
   window,
   workspace,
@@ -20,6 +21,8 @@ import {
   reloadImportRegistries as reloadImportRegistriesReq,
   virtualTextDocument,
 } from "./lsp_extensions";
+
+let terminal: Terminal | undefined;
 
 // deno-lint-ignore no-explicit-any
 export type Callback = (...args: any[]) => unknown;
@@ -102,6 +105,26 @@ export function status(
     });
     window.echoLines(content.split("\n"));
   };
+}
+
+export async function test(uri: string, name: string) {
+  const config = workspace.getConfiguration(EXTENSION_NS);
+  const testArgs = [...config.get<string[]>("codeLens.testArgs", [])];
+  if (config.get<boolean>("unstable")) {
+    testArgs.push("--unstable");
+  }
+  if (config.get<string>("importMap")) {
+    testArgs.push("--import-map", String(config.get("importMap")));
+  }
+  const bin = config.get("path", "deno");
+  const args = ["test", ...testArgs, "--filter", name, Uri.parse(uri).fsPath];
+
+  if (terminal) {
+    terminal.dispose();
+    terminal = undefined;
+  }
+  terminal = await workspace.createTerminal({ name, cwd: workspace.root });
+  terminal.sendText(`${bin} ${args.join(" ")}`);
 }
 
 export function welcome(

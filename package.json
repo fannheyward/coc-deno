@@ -138,6 +138,23 @@
             false
           ]
         },
+        "deno.codeLens.test": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Enables or disables the display of code lenses that allow running of individual tests in the code.",
+          "scope": "resource"
+        },
+        "deno.codeLens.testArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "--allow-all"
+          ],
+          "markdownDescription": "Additional arguments to use with the run test code lens.  Defaults to `[ \"--allow-all\" ]`.",
+          "scope": "resource"
+        },
         "deno.config": {
           "type": "string",
           "default": null,
