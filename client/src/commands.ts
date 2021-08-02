@@ -110,12 +110,15 @@ export function status(
 export async function test(uri: string, name: string) {
   const config = workspace.getConfiguration(EXTENSION_NS);
   const testArgs = [...config.get<string[]>("codeLens.testArgs", [])];
-  if (config.get<boolean>("unstable")) {
+  if (config.has("unstable")) {
     testArgs.push("--unstable");
   }
-  if (config.get<string>("importMap")) {
+  if (config.has("importMap")) {
     testArgs.push("--import-map", String(config.get("importMap")));
   }
+  const env = config.has("cache")
+    ? { "DENO_DIR": config.get("cache") } as Record<string, string>
+    : undefined;
   const bin = config.get("path", "deno");
   const args = [
     "test",
@@ -129,7 +132,7 @@ export async function test(uri: string, name: string) {
     terminal.dispose();
     terminal = undefined;
   }
-  terminal = await workspace.createTerminal({ name, cwd: workspace.root });
+  terminal = await workspace.createTerminal({ name, cwd: workspace.root, env });
   terminal.sendText(`${bin} ${args.join(" ")}`);
 }
 

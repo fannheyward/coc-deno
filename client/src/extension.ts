@@ -32,6 +32,7 @@ function assert(cond: unknown, msg = "Assertion failed."): asserts cond {
 const SERVER_SEMVER = ">=1.9.0";
 
 const settingsKeys: Array<keyof Settings> = [
+  "cache",
   "codeLens",
   "config",
   "enable",

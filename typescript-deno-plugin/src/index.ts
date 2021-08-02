@@ -27,12 +27,14 @@ const projectSettings = new Map<string, Settings>();
 /** The default settings to assume to be true until a configuration message is
  * received from the extension. */
 const defaultSettings: Settings = {
+  cache: null,
   enable: false,
   codeLens: null,
   config: null,
   importMap: null,
   internalDebug: false,
   lint: false,
+  path: null,
   suggest: {
     autoImports: true,
     completeFunctionCalls: false,
