@@ -20,12 +20,8 @@
     "prepare": "node esbuild.js",
     "build": "node esbuild.js",
     "watch": "node esbuild.js --watch",
-    "fmt": "deno fmt client/src typescript-deno-plugin/src README.md Releases.md",
-    "lint": "deno lint --unstable client/src typescript-deno-plugin/src",
-    "postinstall": "cd ./typescript-deno-plugin && node esbuild.js && cd .."
-  },
-  "dependencies": {
-    "typescript-deno-plugin": "./typescript-deno-plugin"
+    "fmt": "deno fmt src README.md",
+    "lint": "deno lint --unstable src"
   },
   "devDependencies": {
     "@types/node": "12.12.0",
@@ -55,6 +51,12 @@
         "title": "Language Server Status",
         "category": "Deno",
         "description": "Provide a status document of the language server."
+      },
+      {
+        "command": "deno.restart",
+        "title": "Restart Language Server",
+        "category": "Deno",
+        "description": "Restart the Deno language server"
       },
       {
         "command": "deno.reloadImportRegistries",
@@ -271,12 +273,6 @@
           "importMap*.json"
         ],
         "url": "./schemas/import_map.schema.json"
-      }
-    ],
-    "typescriptServerPlugins": [
-      {
-        "name": "typescript-deno-plugin",
-        "enableForWorkspaceTypeScriptVersions": true
       }
     ]
   }

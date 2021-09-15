@@ -16,13 +16,5 @@
   "exclude": [
     "node_modules",
     ".vscode-test"
-  ],
-  "references": [
-    {
-      "path": "./client"
-    },
-    {
-      "path": "./typescript-deno-plugin"
-    }
   ]
 }

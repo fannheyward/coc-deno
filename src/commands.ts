@@ -15,7 +15,7 @@ import {
   window,
   workspace,
 } from "coc.nvim";
-import { EXTENSION_NS, PRETTIER_EXTENSION } from "./constants";
+import { EXTENSION_NS } from "./constants";
 import {
   cache as cacheReq,
   reloadImportRegistries as reloadImportRegistriesReq,
@@ -61,21 +61,23 @@ export function initializeWorkspace(): Callback {
     const unstable = "Enable Deno unstable APIs?";
     const prettier = "Disable coc-prettier for current project?";
     const items = [linting, unstable];
-    if (extensions.all.find((e) => e.id === PRETTIER_EXTENSION)) {
+    if (extensions.all.find((e) => e.id === "coc-prettier")) {
       items.push(prettier);
     }
     const settings = await window.showPickerDialog(items, title);
     if (!settings) return;
-    await workspace.nvim.command(`CocRestart`, true);
     const config = workspace.getConfiguration(EXTENSION_NS);
     config.update("enable", true);
     config.update("lint", settings.includes(linting));
     config.update("unstable", settings.includes(unstable));
+
     if (settings.includes(prettier)) {
       const prettierConfig = workspace.getConfiguration("prettier");
       prettierConfig.update("disableLanguages", ["typescript", "javascript"]);
     }
     window.showMessage("Deno is now setup in this workspace.");
+
+    await checkTSServer();
   };
 }
 
@@ -150,4 +152,24 @@ export function reloadImportRegistries(
   client: LanguageClient,
 ): Callback {
   return () => client.sendRequest(reloadImportRegistriesReq);
+}
+
+export function restart(
+  _context: ExtensionContext,
+  client: LanguageClient,
+): Callback {
+  return async () => {
+    await client.stop();
+    client.start();
+  };
+}
+
+// deno-lint-ignore require-await
+export async function checkTSServer(): Promise<void> {
+  const tsserverConfig = workspace.getConfiguration("tsserver");
+  const enable = tsserverConfig.get<boolean>("enable");
+  if (enable) {
+    tsserverConfig.update("enable", false);
+    workspace.nvim.command(`CocRestart`, true);
+  }
 }

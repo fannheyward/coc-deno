@@ -4,7 +4,6 @@ import {
   commands,
   Executable,
   ExtensionContext,
-  extensions,
   LanguageClient,
   LanguageClientOptions,
   Thenable,
@@ -13,14 +12,10 @@ import {
 } from "coc.nvim";
 import * as semver from "semver";
 import * as cmds from "./commands";
-import {
-  EXTENSION_NS,
-  EXTENSION_TS_PLUGIN,
-  TS_LANGUAGE_FEATURES_EXTENSION,
-} from "./constants";
+import { EXTENSION_NS } from "./constants";
 import { DenoTextDocumentContentProvider } from "./content_provider";
-import { Settings } from "./types";
 import { registryState, RegistryStateParams } from "./lsp_extensions";
+import { Settings } from "./types";
 
 /** Assert that the condition is "truthy", otherwise throw. */
 function assert(cond: unknown, msg = "Assertion failed."): asserts cond {
@@ -42,11 +37,6 @@ const settingsKeys: Array<keyof Settings> = [
   "suggest",
   "unstable",
 ];
-
-// deno-lint-ignore no-explicit-any
-function synchronizeConfiguration(api: any): void {
-  api?.configurePlugin(EXTENSION_TS_PLUGIN, getSettings());
-}
 
 function getSettings(): Settings {
   const settings = workspace.getConfiguration(EXTENSION_NS);
@@ -70,19 +60,12 @@ export async function activate(context: ExtensionContext): Promise<void> {
     return;
   }
 
-  const tsserver = extensions.all.find((e) =>
-    e.id === TS_LANGUAGE_FEATURES_EXTENSION
-  );
-  if (tsserver) {
-    await tsserver.activate();
-    synchronizeConfiguration(tsserver.exports);
-  }
+  await cmds.checkTSServer();
 
   const command = workspace.getConfiguration(EXTENSION_NS).get("path", "deno");
   const run: Executable = {
     command,
     args: ["lsp"],
-    // deno-lint-ignore no-undef
     options: { env: { ...process.env, "NO_COLOR": true } },
   };
 
@@ -101,7 +84,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       { scheme: "deno", language: "typescript" },
       { scheme: "deno", language: "typescriptreact" },
     ],
-    diagnosticCollectionName: "deno",
+    diagnosticCollectionName: EXTENSION_NS,
     initializationOptions: getSettings(),
     middleware: {
       provideDefinition: async (document, position, token, next) => {
@@ -116,8 +99,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   };
 
   client = new LanguageClient(
-    "deno-language-server",
-    "Deno Language Server",
+    EXTENSION_NS,
     run,
     clientOptions,
   );
@@ -135,9 +117,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
           // information on the event not being reliable.
           { settings: null },
         );
-        if (tsserver) {
-          synchronizeConfiguration(tsserver.exports);
-        }
+        commands.executeCommand("deno.restart");
       }
     }),
     // Register a content provider for Deno resolved read-only files.
@@ -149,6 +129,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   registerCommand("cache", cmds.cache);
   registerCommand("status", cmds.status);
+  registerCommand("restart", cmds.restart);
   registerCommand("reloadImportRegistries", cmds.reloadImportRegistries);
   registerCommand("initializeWorkspace", cmds.initializeWorkspace);
   commands.registerCommand(`${EXTENSION_NS}.test`, cmds.test, null, true);
