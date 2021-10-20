@@ -115,8 +115,10 @@ export async function test(uri: string, name: string) {
   if (config.has("unstable")) {
     testArgs.push("--unstable");
   }
-  if (config.has("importMap")) {
-    testArgs.push("--import-map", String(config.get("importMap")));
+  if (!testArgs.includes("--import-map")) {
+    if (config.has("importMap")) {
+      testArgs.push("--import-map", String(config.get("importMap")));
+    }
   }
   const env = config.has("cache")
     ? { "DENO_DIR": config.get("cache") } as Record<string, string>
