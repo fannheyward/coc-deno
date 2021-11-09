@@ -191,18 +191,17 @@ function createRegistryStateHandler(): NotificationHandler<
   RegistryStateParams
 > {
   return async function handler(p) {
-    let enable = false;
     if (p.suggestions) {
       const selection = await window.showInformationMessage(
         `The server "${p.origin}" supports completion suggestions for imports. Do you wish to enable this? (Only do this if you trust "${p.origin}") [Learn More](https://github.com/denoland/vscode_deno/blob/main/docs/ImportCompletions.md)`,
         "No",
         "Enable",
       );
-      enable = selection === "Enable";
+      const enable = selection === "Enable";
+      const config = workspace.getConfiguration("deno.suggest.imports");
+      const hosts: Record<string, boolean> = config.get("hosts", {});
+      hosts[p.origin] = enable;
+      config.update("hosts", hosts);
     }
-    const config = workspace.getConfiguration("deno.suggest.imports");
-    const hosts: Record<string, boolean> = config.get("hosts", {});
-    hosts[p.origin] = enable;
-    config.update("hosts", hosts);
   };
 }
