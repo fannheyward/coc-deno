@@ -1,20 +1,28 @@
 // Copyright 2018-2021 the Deno authors. All rights reserved. MIT license.
 
 import {
+  CancellationToken,
   commands,
   Executable,
   ExtensionContext,
   LanguageClient,
   LanguageClientOptions,
+  LocationLink,
+  ProviderResult,
+  TextDocumentContentProvider,
   Thenable,
+  Uri,
   window,
   workspace,
 } from "coc.nvim";
 import * as semver from "semver";
 import * as cmds from "./commands";
 import { EXTENSION_NS } from "./constants";
-import { DenoTextDocumentContentProvider } from "./content_provider";
-import { registryState, RegistryStateParams } from "./lsp_extensions";
+import {
+  registryState,
+  RegistryStateParams,
+  virtualTextDocument,
+} from "./lsp_extensions";
 import { Settings } from "./types";
 
 /** Assert that the condition is "truthy", otherwise throw. */
@@ -25,6 +33,7 @@ function assert(cond: unknown, msg = "Assertion failed."): asserts cond {
 }
 
 const SERVER_SEMVER = ">=1.9.0";
+const SERVER_SEMVER_16 = ">=1.16.0";
 
 const settingsKeys: Array<keyof Settings> = [
   "cache",
@@ -51,6 +60,35 @@ function getSettings(): Settings {
 }
 
 let client: LanguageClient;
+let serverVersion = "";
+
+class DenoTextDocumentContentProvider implements TextDocumentContentProvider {
+  constructor(private client: LanguageClient) {}
+
+  provideTextDocumentContent(
+    uri: Uri,
+    token: CancellationToken,
+  ): ProviderResult<string> {
+    let res = uri.toString();
+    let PATCH_8_2_3468 = false;
+    if (res.startsWith("file:")) {
+      PATCH_8_2_3468 = true;
+      res = res.replace(`file:\/\/${process.cwd()}/`, "").replace("%3A", ":");//lgtm [js/incomplete-sanitization]
+    }
+    if (semver.valid(serverVersion)) {
+      if (semver.satisfies(serverVersion, SERVER_SEMVER_16)) {
+        res = res.replace("deno:/asset", "deno:asset");
+      } else if (PATCH_8_2_3468) {
+        res = res.replace("deno:/asset", "deno:/asset/");
+      }
+    }
+    return this.client.sendRequest(
+      virtualTextDocument,
+      { textDocument: { uri: res } },
+      token,
+    );
+  }
+}
 
 export async function activate(context: ExtensionContext): Promise<void> {
   const registerCommand = createRegisterCommand(context);
@@ -93,6 +131,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
         docSet.add(document.uri);
         const def = await next(document, position, token);
         docSet.delete(document.uri);
+        if (semver.satisfies(serverVersion, SERVER_SEMVER_16)) {
+          if (def && Array.isArray(def)) {
+            def.map((d) => {
+              if (LocationLink.is(d) && d.targetUri.startsWith("deno:asset")) {
+                d.targetUri = d.targetUri.replace("deno:asset", "deno:/asset");
+              }
+            });
+          }
+        }
         return def;
       },
     },
@@ -144,7 +191,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   await client.onReady();
   client.onNotification(registryState, createRegistryStateHandler());
 
-  const serverVersion =
+  serverVersion =
     (client.initializeResult?.serverInfo?.version ?? "").split(" ")[0];
   if (serverVersion) {
     statusBarItem.text = `Deno ${serverVersion}`;
