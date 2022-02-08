@@ -13,9 +13,9 @@
   integrity sha512-L/TMpyURfBkf+o/526Zb6kd/tchUP3iBDEPjqjb+U2MAJhVRxxrmr2fwpe08E7QsV7YLcpq0tUaQ9O9x97ZIxQ==
 
 coc.nvim@^0.0.81-next.7:
-  version "0.0.81-next.8"
-  resolved "https://registry.yarnpkg.com/coc.nvim/-/coc.nvim-0.0.81-next.8.tgz#7c0ec46cfab29d41ebdb9e3e9cabf1cb5cc2b920"
-  integrity sha512-1dk2j571Gxk4lXw2GVdGfOJeZAhfZ5HgmtA/p4NW5gorNVnCcC6qe2sp0LiecgiWfah3o+BsOTahr+Vjwj6GYA==
+  version "0.0.81-next.11"
+  resolved "https://registry.yarnpkg.com/coc.nvim/-/coc.nvim-0.0.81-next.11.tgz#2ac44f770da662adbaf30678edc837715016fe90"
+  integrity sha512-XxRRdpK67tVJH+zvwi4bHc9e/UJWBj2ZJdY8Q9/Twp0tgipDstoCqK3KeoszT79J7whPzS/1Y/8VG7dRNrMJ4w==
 
 esbuild-android-arm64@0.14.10:
   version "0.14.10"
