@@ -5,6 +5,7 @@ import {
   commands,
   Executable,
   ExtensionContext,
+  extensions,
   LanguageClient,
   LanguageClientOptions,
   LocationLink,
@@ -90,14 +91,7 @@ class DenoTextDocumentContentProvider implements TextDocumentContentProvider {
   }
 }
 
-export async function activate(context: ExtensionContext): Promise<void> {
-  const registerCommand = createRegisterCommand(context);
-  const enable = workspace.getConfiguration(EXTENSION_NS).get("enable", false);
-  if (!enable) {
-    registerCommand("initializeWorkspace", cmds.initializeWorkspace);
-    return;
-  }
-
+async function tryActivate(context: ExtensionContext): Promise<void> {
   await cmds.checkTSServer();
 
   const command = workspace.getConfiguration(EXTENSION_NS).get("path", "deno");
@@ -174,6 +168,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     ),
   );
 
+  const registerCommand = createRegisterCommand(context);
   registerCommand("cache", cmds.cache);
   registerCommand("status", cmds.status);
   registerCommand("restart", cmds.restart);
@@ -206,6 +201,24 @@ export async function activate(context: ExtensionContext): Promise<void> {
       "warning",
     );
   }
+}
+
+export async function activate(context: ExtensionContext): Promise<void> {
+  const enable = workspace.getConfiguration(EXTENSION_NS).get("enable", false);
+  if (!enable) {
+    context.subscriptions.push(
+      commands.registerCommand(
+        `${EXTENSION_NS}.initializeWorkspace`,
+        async () => {
+          await cmds.doInitialize();
+          await tryActivate(context)
+        },
+      ),
+    );
+    return;
+  }
+
+  await tryActivate(context);
 }
 
 export function deactivate(): Thenable<void> | undefined {

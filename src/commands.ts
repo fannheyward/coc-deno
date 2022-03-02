@@ -54,29 +54,33 @@ export function cache(
   };
 }
 
+export async function doInitialize() {
+  const title = "Initialize Deno Project";
+  const linting = "Enable Deno linting?";
+  const unstable = "Enable Deno unstable APIs?";
+  const prettier = "Disable coc-prettier for current project?";
+  const items = [linting, unstable];
+  if (extensions.all.find((e) => e.id === "coc-prettier")) {
+    items.push(prettier);
+  }
+  const settings = await window.showPickerDialog(items, title);
+  if (!settings) return;
+
+  const config = workspace.getConfiguration(EXTENSION_NS);
+  config.update("enable", true);
+  config.update("lint", settings.includes(linting));
+  config.update("unstable", settings.includes(unstable));
+
+  if (settings.includes(prettier)) {
+    const prettierConfig = workspace.getConfiguration("prettier");
+    prettierConfig.update("disableLanguages", ["typescript", "javascript"]);
+  }
+  window.showMessage("Deno is now setup in this workspace.");
+}
+
 export function initializeWorkspace(): Callback {
   return async () => {
-    const title = "Initialize Deno Project";
-    const linting = "Enable Deno linting?";
-    const unstable = "Enable Deno unstable APIs?";
-    const prettier = "Disable coc-prettier for current project?";
-    const items = [linting, unstable];
-    if (extensions.all.find((e) => e.id === "coc-prettier")) {
-      items.push(prettier);
-    }
-    const settings = await window.showPickerDialog(items, title);
-    if (!settings) return;
-    const config = workspace.getConfiguration(EXTENSION_NS);
-    config.update("enable", true);
-    config.update("lint", settings.includes(linting));
-    config.update("unstable", settings.includes(unstable));
-
-    if (settings.includes(prettier)) {
-      const prettierConfig = workspace.getConfiguration("prettier");
-      prettierConfig.update("disableLanguages", ["typescript", "javascript"]);
-    }
-    window.showMessage("Deno is now setup in this workspace.");
-
+    await doInitialize();
     await checkTSServer();
   };
 }
@@ -172,6 +176,5 @@ export async function checkTSServer(): Promise<void> {
   const enable = tsserverConfig.get<boolean>("enable");
   if (enable) {
     tsserverConfig.update("enable", false);
-    workspace.nvim.command(`CocRestart`, true);
   }
 }
