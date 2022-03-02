@@ -5,7 +5,6 @@ import {
   commands,
   Executable,
   ExtensionContext,
-  extensions,
   LanguageClient,
   LanguageClientOptions,
   LocationLink,
