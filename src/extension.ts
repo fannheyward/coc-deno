@@ -123,6 +123,11 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
         if (fsPath.includes("deno:asset") || fsPath.includes("deno:/asset")) {
           return;
         }
+        if (fsPath.includes("deno:/https")) {
+          const pwd = process.cwd() + "/";
+          // @ts-ignore force set
+          data.uri = Uri.parse(fsPath.replace(pwd, "")).toString();
+        }
         next(data);
       },
       provideDefinition: async (document, position, token, next) => {
