@@ -73,7 +73,7 @@ class DenoTextDocumentContentProvider implements TextDocumentContentProvider {
     let PATCH_8_2_3468 = false;
     if (res.startsWith("file:")) {
       PATCH_8_2_3468 = true;
-      res = res.replace(`file:\/\/${process.cwd()}/`, "").replace("%3A", ":");//lgtm [js/incomplete-sanitization]
+      res = res.replace(`file:\/\/${process.cwd()}/`, "").replace("%3A", ":"); //lgtm [js/incomplete-sanitization]
     }
     if (semver.valid(serverVersion)) {
       if (semver.satisfies(serverVersion, SERVER_SEMVER_16)) {
@@ -118,6 +118,13 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     diagnosticCollectionName: EXTENSION_NS,
     initializationOptions: getSettings(),
     middleware: {
+      didOpen: (data, next) => {
+        const fsPath = Uri.parse(data.uri).fsPath;
+        if (fsPath.includes("deno:asset") || fsPath.includes("deno:/asset")) {
+          return;
+        }
+        next(data);
+      },
       provideDefinition: async (document, position, token, next) => {
         if (docSet.has(document.uri)) return;
 
@@ -210,7 +217,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
         `${EXTENSION_NS}.initializeWorkspace`,
         async () => {
           await cmds.doInitialize();
-          await tryActivate(context)
+          await tryActivate(context);
         },
       ),
     );
