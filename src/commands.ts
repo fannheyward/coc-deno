@@ -140,7 +140,7 @@ export async function test(uri: string, name: string) {
     terminal.dispose();
     terminal = undefined;
   }
-  terminal = await workspace.createTerminal({ name, cwd: workspace.root, env });
+  terminal = await window.createTerminal({ name, cwd: workspace.root, env });
   terminal.sendText(`${bin} ${args.join(" ")}`);
 }
 
