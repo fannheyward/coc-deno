@@ -10,6 +10,7 @@ import {
   LanguageClient,
   Location,
   Position,
+  State,
   Terminal,
   Uri,
   window,
@@ -75,7 +76,7 @@ export async function doInitialize() {
     const prettierConfig = workspace.getConfiguration("prettier");
     prettierConfig.update("disableLanguages", ["typescript", "javascript"]);
   }
-  window.showMessage("Deno is now setup in this workspace.");
+  window.showInformationMessage("Deno is now setup in this workspace.");
 }
 
 export function initializeWorkspace(): Callback {
@@ -165,8 +166,9 @@ export function restart(
   client: LanguageClient,
 ): Callback {
   return async () => {
-    await client.stop();
-    client.start();
+    if (client.getPublicState() === State.Running) {
+      client.restart()
+    }
   };
 }
 

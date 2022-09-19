@@ -118,7 +118,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     diagnosticCollectionName: EXTENSION_NS,
     initializationOptions: getSettings(),
     middleware: {
-      didOpen: (data, next) => {
+      didOpen: async (data, next) => {
         const fsPath = Uri.parse(data.uri).fsPath;
         if (fsPath.includes("deno:asset") || fsPath.includes("deno:/asset")) {
           return;
@@ -193,7 +193,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     true,
   );
 
-  context.subscriptions.push(client.start());
+  await client.start()
   await client.onReady();
   client.onNotification(registryState, createRegistryStateHandler());
 
