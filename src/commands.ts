@@ -165,7 +165,7 @@ export function restart(
   _context: ExtensionContext,
   client: LanguageClient,
 ): Callback {
-  return async () => {
+  return () => {
     if (client.getPublicState() === State.Running) {
       client.restart()
     }

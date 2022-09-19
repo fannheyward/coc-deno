@@ -118,7 +118,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     diagnosticCollectionName: EXTENSION_NS,
     initializationOptions: getSettings(),
     middleware: {
-      didOpen: async (data, next) => {
+      didOpen: (data, next) => {
         const fsPath = Uri.parse(data.uri).fsPath;
         if (fsPath.includes("deno:asset") || fsPath.includes("deno:/asset")) {
           return;
