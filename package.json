@@ -59,6 +59,12 @@
         "description": "Restart the Deno language server"
       },
       {
+        "command": "deno.performance",
+        "title": "Display the timing averages for the internal instrumentation of Deno",
+        "category": "Deno",
+        "description": "Display the timing averages for the internal instrumentation of Deno"
+      },
+      {
         "command": "deno.reloadImportRegistries",
         "title": "Reload Import Registries Cache",
         "category": "Deno",
