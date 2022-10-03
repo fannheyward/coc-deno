@@ -193,7 +193,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     true,
   );
 
-  await client.start()
+  await client.start();
   await client.onReady();
   client.onNotification(registryState, createRegistryStateHandler());
 

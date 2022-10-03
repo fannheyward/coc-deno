@@ -110,7 +110,19 @@ export function status(
     const content = await client.sendRequest(virtualTextDocument, {
       textDocument: { uri: "deno:/status.md" },
     });
-    window.echoLines(content.split("\n"));
+    if (!content) return;
+
+    const nvim = workspace.nvim;
+    nvim.pauseNotification();
+    nvim.command(
+      `edit +setl\\ buftype=nofile [Deno Language Server Status]`,
+      true,
+    );
+    nvim.command("setl nobuflisted bufhidden=wipe", true);
+    nvim.command("setl filetype=markdown", true);
+    nvim.call("append", [0, content.split("\n")], true);
+    nvim.command(`exe 1`, true);
+    await nvim.resumeNotification();
   };
 }
 
@@ -167,7 +179,7 @@ export function restart(
 ): Callback {
   return () => {
     if (client.getPublicState() === State.Running) {
-      client.restart()
+      client.restart();
     }
   };
 }
