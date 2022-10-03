@@ -59,6 +59,12 @@
         "description": "Restart the Deno language server"
       },
       {
+        "command": "deno.task",
+        "title": "List/Run Deno task",
+        "category": "Deno",
+        "description": "List/Run Deno tasks"
+      },
+      {
         "command": "deno.performance",
         "title": "Display the timing averages for the internal instrumentation of Deno",
         "category": "Deno",

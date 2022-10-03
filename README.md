@@ -22,6 +22,7 @@ Deno extension for coc.nvim, forked from
 
 - `deno.cache`: Cache Dependencies
 - `deno.status`: Display language server status
+- `deno.task`: List/Run Deno tasks
 - `deno.performance`: Display the timing averages for the internal
   instrumentation of Deno
 - `deno.initializeWorkspace`: Initialize workspace configuration for Deno

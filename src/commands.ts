@@ -21,6 +21,7 @@ import {
   cache as cacheReq,
   performance as performanceReq,
   reloadImportRegistries as reloadImportRegistriesReq,
+  task as taskReq,
   virtualTextDocument,
 } from "./lsp_extensions";
 
@@ -132,8 +133,8 @@ export function performance(
   client: LanguageClient,
 ): Callback {
   return async () => {
-    const context = await client.sendRequest(performanceReq);
-    if (!context) return;
+    const content = await client.sendRequest(performanceReq);
+    if (!content) return;
 
     const nvim = workspace.nvim;
     nvim.pauseNotification();
@@ -145,11 +146,40 @@ export function performance(
     nvim.command("setl filetype=json", true);
     nvim.call(
       "append",
-      [0, JSON.stringify(context, null, 2).split("\n")],
+      [0, JSON.stringify(content, null, 2).split("\n")],
       true,
     );
     nvim.command(`exe 1`, true);
     await nvim.resumeNotification();
+  };
+}
+
+export function task(
+  _context: ExtensionContext,
+  client: LanguageClient,
+): Callback {
+  return async () => {
+    const tasks = await client.sendRequest(taskReq);
+    if (!tasks || tasks.length === 0) return;
+
+    const items = [...tasks.map((task) => ({ text: task.detail }))];
+    const idx = await window.showMenuPicker(items, {
+      title: "Select a task to run",
+      position: "center",
+    });
+    if (idx === -1) return;
+
+    if (terminal) {
+      terminal.dispose();
+      terminal = undefined;
+    }
+
+    const task = tasks[idx];
+    terminal = await window.createTerminal({
+      name: task.name,
+      cwd: workspace.root,
+    });
+    terminal.sendText(task.detail);
   };
 }
 

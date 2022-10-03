@@ -180,6 +180,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
   );
 
   const registerCommand = createRegisterCommand(context);
+  registerCommand("task", cmds.task);
   registerCommand("cache", cmds.cache);
   registerCommand("status", cmds.status);
   registerCommand("restart", cmds.restart);
