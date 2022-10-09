@@ -33,7 +33,7 @@ function assert(cond: unknown, msg = "Assertion failed."): asserts cond {
 }
 
 const SERVER_SEMVER = ">=1.9.0";
-const SERVER_SEMVER_16 = ">=1.16.0";
+const SERVER_SEMVER_1210 = "<=1.21.0";
 
 const settingsKeys: Array<keyof Settings> = [
   "cache",
@@ -69,22 +69,9 @@ class DenoTextDocumentContentProvider implements TextDocumentContentProvider {
     uri: Uri,
     token: CancellationToken,
   ): ProviderResult<string> {
-    let res = uri.toString();
-    let PATCH_8_2_3468 = false;
-    if (res.startsWith("file:")) {
-      PATCH_8_2_3468 = true;
-      res = res.replace(`file:\/\/${process.cwd()}/`, "").replace("%3A", ":"); //lgtm [js/incomplete-sanitization]
-    }
-    if (semver.valid(serverVersion)) {
-      if (semver.satisfies(serverVersion, SERVER_SEMVER_16)) {
-        res = res.replace("deno:/asset", "deno:asset");
-      } else if (PATCH_8_2_3468) {
-        res = res.replace("deno:/asset", "deno:/asset/");
-      }
-    }
     return this.client.sendRequest(
       virtualTextDocument,
-      { textDocument: { uri: res } },
+      { textDocument: { uri: uri.toString() } },
       token,
     );
   }
@@ -136,7 +123,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
         docSet.add(document.uri);
         const def = await next(document, position, token);
         docSet.delete(document.uri);
-        if (semver.satisfies(serverVersion, SERVER_SEMVER_16)) {
+        if (semver.satisfies(serverVersion, SERVER_SEMVER_1210)) {
           if (def && Array.isArray(def)) {
             def.map((d) => {
               if (LocationLink.is(d) && d.targetUri.startsWith("deno:asset")) {
