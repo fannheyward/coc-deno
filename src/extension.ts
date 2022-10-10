@@ -53,8 +53,9 @@ function getSettings(): Settings {
   for (const key of settingsKeys) {
     const value = settings.inspect(key);
     assert(value);
-    result[key] = value.workspaceValue ?? value.globalValue ??
-      value.defaultValue;
+    // @ts-ignore FIXME: rm ignore flag after coc typings are updated
+    result[key] = value.workspaceFolderValue ?? value.workspaceValue ??
+      value.globalValue ?? value.defaultValue;
   }
   return result;
 }
@@ -105,7 +106,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     diagnosticCollectionName: EXTENSION_NS,
     initializationOptions: getSettings(),
     middleware: {
-      didOpen: (data, next) => {
+      didOpen: async (data, next) => {
         const fsPath = Uri.parse(data.uri).fsPath;
         if (fsPath.includes("deno:asset") || fsPath.includes("deno:/asset")) {
           return;
@@ -115,7 +116,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
           // @ts-ignore force set
           data.uri = Uri.parse(fsPath.replace(pwd, "")).toString();
         }
-        next(data);
+        await next(data);
       },
       provideDefinition: async (document, position, token, next) => {
         if (docSet.has(document.uri)) return;
