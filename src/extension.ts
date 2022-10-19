@@ -41,7 +41,7 @@ const settingsKeys: Array<keyof Settings> = [
   "config",
   "enable",
   "importMap",
-  // @ts-ignore
+  // @ts-ignore: Settings hasn't been updated to include this yet
   "inlayHints",
   "internalDebug",
   "lint",
