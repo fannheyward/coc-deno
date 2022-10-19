@@ -198,11 +198,14 @@ export async function test(uri: string, name: string) {
     ? { "DENO_DIR": config.get("cache") } as Record<string, string>
     : undefined;
   const bin = config.get("path", "deno");
+  const filter = new RegExp(
+    "^" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$",
+  );
   const args = [
     "test",
     ...testArgs,
     "--filter",
-    `"${name}"`,
+    `"${filter}"`,
     Uri.parse(uri).fsPath,
   ];
 

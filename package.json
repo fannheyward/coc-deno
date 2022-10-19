@@ -171,9 +171,10 @@
             "type": "string"
           },
           "default": [
-            "--allow-all"
+            "--allow-all",
+            "--no-check"
           ],
-          "markdownDescription": "Additional arguments to use with the run test code lens.  Defaults to `[ \"--allow-all\" ]`.",
+          "markdownDescription": "Additional arguments to use with the run test code lens.  Defaults to `[ \"--allow-all\", \"--no-check\" ]`.",
           "scope": "resource"
         },
         "deno.config": {
