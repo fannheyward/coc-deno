@@ -190,8 +190,9 @@ export async function test(uri: string, name: string) {
     testArgs.push("--unstable");
   }
   if (!testArgs.includes("--import-map")) {
-    if (config.has("importMap")) {
-      testArgs.push("--import-map", String(config.get("importMap")));
+    const importMap = config.get<string>("importMap");
+    if (importMap?.trim()) {
+      testArgs.push("--import-map", importMap.trim());
     }
   }
   const env = config.has("cache")
