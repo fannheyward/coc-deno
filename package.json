@@ -349,7 +349,7 @@
     "jsonValidation": [
       {
         "fileMatch": "deno-import-intellisense.json",
-        "url": "./schemas/registry-completions.schema.json"
+        "url": "https://raw.githubusercontent.com/denoland/vscode_deno/main/schemas/registry-completions.schema.json"
       },
       {
         "fileMatch": [
@@ -359,11 +359,15 @@
         "url": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json"
       },
       {
+        "fileMatch": "deno.lock",
+        "url": "https://raw.githubusercontent.com/denoland/vscode_deno/main/schemas/lockfile.schema.json"
+      },
+      {
         "fileMatch": [
           "import*map*.json",
           "importMap*.json"
         ],
-        "url": "./schemas/import_map.schema.json"
+        "url": "https://raw.githubusercontent.com/denoland/vscode_deno/main/schemas/import_map.schema.json"
       }
     ]
   }
