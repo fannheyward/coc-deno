@@ -1,6 +1,6 @@
 {
   "name": "coc-deno",
-  "version": "3.10.5",
+  "version": "3.11.0",
   "description": "Deno extension for coc.nvim, forked from vscode_deno",
   "author": "Heyward Fann <fannheyward@gmail.com>",
   "license": "MIT",
