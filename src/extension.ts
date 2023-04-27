@@ -172,7 +172,6 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
   registerCommand("cache", cmds.cache);
   registerCommand("status", cmds.status);
   registerCommand("restart", cmds.restart);
-  registerCommand("performance", cmds.performance);
   registerCommand("reloadImportRegistries", cmds.reloadImportRegistries);
   registerCommand("initializeWorkspace", cmds.initializeWorkspace);
   commands.registerCommand(`${EXTENSION_NS}.test`, cmds.test, null, true);

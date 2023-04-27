@@ -25,8 +25,6 @@ export const reloadImportRegistries = new RequestType0<boolean, void>(
   "deno/reloadImportRegistries",
 );
 
-export const performance = new RequestType0<string, void>("deno/performance");
-
 export interface RegistryStateParams {
   origin: string;
   suggestions: boolean;

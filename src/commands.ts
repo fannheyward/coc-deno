@@ -19,7 +19,6 @@ import {
 import { EXTENSION_NS } from "./constants";
 import {
   cache as cacheReq,
-  performance as performanceReq,
   reloadImportRegistries as reloadImportRegistriesReq,
   task as taskReq,
   virtualTextDocument,
@@ -123,32 +122,6 @@ export function status(
     nvim.command("setl nobuflisted bufhidden=wipe", true);
     nvim.command("setl filetype=markdown", true);
     nvim.call("append", [0, content.split("\n")], true);
-    nvim.command(`exe 1`, true);
-    await nvim.resumeNotification();
-  };
-}
-
-export function performance(
-  _context: ExtensionContext,
-  client: LanguageClient,
-): Callback {
-  return async () => {
-    const content = await client.sendRequest(performanceReq);
-    if (!content) return;
-
-    const nvim = workspace.nvim;
-    nvim.pauseNotification();
-    nvim.command(
-      `edit +setl\\ buftype=nofile [Deno Performance]`,
-      true,
-    );
-    nvim.command("setl nobuflisted bufhidden=wipe", true);
-    nvim.command("setl filetype=json", true);
-    nvim.call(
-      "append",
-      [0, JSON.stringify(content, null, 2).split("\n")],
-      true,
-    );
     nvim.command(`exe 1`, true);
     await nvim.resumeNotification();
   };
