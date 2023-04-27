@@ -26,10 +26,10 @@
   "devDependencies": {
     "@types/node": "12.20.55",
     "@types/semver": "^7.3.4",
-    "coc.nvim": "^0.0.82",
+    "coc.nvim": "^0.0.83-next.9",
     "esbuild": "^0.17.5",
     "semver": "^7.3.5",
-    "typescript": "^4.1.5"
+    "typescript": "^5.0.4"
   },
   "activationEvents": [
     "onCommand:deno.initializeWorkspace",

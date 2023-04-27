@@ -197,9 +197,8 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     semver.valid(serverVersion) &&
     !semver.satisfies(serverVersion, SERVER_SEMVER)
   ) {
-    window.showMessage(
+    window.showWarningMessage(
       `The version of Deno ("${serverVersion}") does not meet the requirements of version ("${SERVER_SEMVER}"), please upgrade Deno.`,
-      "warning",
     );
   }
 }

@@ -122,10 +122,10 @@
   resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.3.13.tgz#da4bfd73f49bd541d28920ab0e2bf0ee80f71c91"
   integrity sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==
 
-coc.nvim@^0.0.82:
-  version "0.0.82"
-  resolved "https://registry.yarnpkg.com/coc.nvim/-/coc.nvim-0.0.82.tgz#5230e2eb17e8499a60a97b46d844f2d08c593b29"
-  integrity sha512-+70ap6FH8FSdaQ0CPijaasQzg6ue84j4/LkX6ZSpALX7YKBcGGDkCcd6adgaC/86b/ZqT3iTTEbMh3mdaI5qPA==
+coc.nvim@^0.0.83-next.9:
+  version "0.0.83-next.9"
+  resolved "https://registry.yarnpkg.com/coc.nvim/-/coc.nvim-0.0.83-next.9.tgz#8f7de8c98fa37019286852d3b7229fb91517ab83"
+  integrity sha512-ek5+EgA9N92/6Wt07TAYpavmBgXZto4Dmwmm56oyBl/w4wy3Tod7LfpCp4k9M4xCxhxPtrflIcxvhdDUPIeMuw==
 
 esbuild@^0.17.5:
   version "0.17.18"
@@ -169,10 +169,10 @@ semver@^7.3.5:
   dependencies:
     lru-cache "^6.0.0"
 
-typescript@^4.1.5:
-  version "4.9.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
-  integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+typescript@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.0.4.tgz#b217fd20119bd61a94d4011274e0ab369058da3b"
+  integrity sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==
 
 yallist@^4.0.0:
   version "4.0.0"
