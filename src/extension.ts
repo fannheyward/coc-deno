@@ -9,6 +9,7 @@ import {
   LanguageClientOptions,
   LocationLink,
   ProviderResult,
+  services,
   TextDocumentContentProvider,
   Thenable,
   Uri,
@@ -144,6 +145,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     run,
     clientOptions,
   );
+  context.subscriptions.push(services.registerLanguageClient(client));
 
   const statusBarItem = window.createStatusBarItem(0);
   context.subscriptions.push(statusBarItem);
@@ -182,7 +184,6 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     true,
   );
 
-  await client.start();
   await client.onReady();
   client.onNotification(registryState, createRegistryStateHandler());
 
