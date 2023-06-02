@@ -1,4 +1,0 @@
-#!/usr/bin/env sh
-
-curl -sSL -o schemas/import_map.schema.json https://raw.githubusercontent.com/denoland/vscode_deno/main/schemas/import_map.schema.json
-curl -sSL -o schemas/deno-import-intellisense.schema.json https://raw.githubusercontent.com/denoland/vscode_deno/main/schemas/deno-import-intellisense.schema.json
