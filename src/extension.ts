@@ -145,7 +145,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     run,
     clientOptions,
   );
-  context.subscriptions.push(services.registerLanguageClient(client));
+  context.subscriptions.push(services.registLanguageClient(client));
 
   const statusBarItem = window.createStatusBarItem(0);
   context.subscriptions.push(statusBarItem);
