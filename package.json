@@ -27,7 +27,7 @@
     "@types/node": "20.2.5",
     "@types/semver": "^7.3.4",
     "coc.nvim": "^0.0.83-next.9",
-    "esbuild": "^0.17.5",
+    "esbuild": "^0.18.11",
     "semver": "^7.3.5",
     "typescript": "^5.0.4"
   },
