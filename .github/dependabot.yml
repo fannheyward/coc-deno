@@ -5,5 +5,10 @@ updates:
   directory: "/"
   schedule:
     interval: monthly
+  groups:
+    dev-dependencies-semver:
+      patterns:
+      - "@types/semver"
+      - "semver"
   reviewers:
   - fannheyward
