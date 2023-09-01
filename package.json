@@ -24,7 +24,7 @@
     "lint": "deno lint --unstable src"
   },
   "devDependencies": {
-    "@types/node": "20.5.6",
+    "@types/node": "20.5.7",
     "@types/semver": "^7.3.4",
     "coc.nvim": "^0.0.83-next.9",
     "esbuild": "^0.19.2",
