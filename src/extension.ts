@@ -3,6 +3,7 @@
 import {
   CancellationToken,
   commands,
+  diagnosticManager,
   Executable,
   ExtensionContext,
   LanguageClient,
@@ -38,6 +39,7 @@ const SERVER_SEMVER_1210 = "<=1.21.0";
 
 const settingsKeys: Array<keyof Settings> = [
   "cache",
+  "cacheOnSave",
   "codeLens",
   "config",
   "enable",
@@ -55,7 +57,6 @@ function getSettings(): Settings {
   for (const key of settingsKeys) {
     const value = settings.inspect(key);
     assert(value);
-    // @ts-ignore FIXME: rm ignore flag after coc typings are updated
     result[key] = value.workspaceFolderValue ?? value.workspaceValue ??
       value.globalValue ?? value.defaultValue;
   }
@@ -151,6 +152,25 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
   context.subscriptions.push(statusBarItem);
 
   context.subscriptions.push(
+    workspace.onDidSaveTextDocument((evt) => {
+      const cacheOnSave = workspace.getConfiguration(EXTENSION_NS).get(
+        "cacheOnSave",
+        false,
+      );
+      if (cacheOnSave) {
+        const collection = diagnosticManager.getCollectionByName(EXTENSION_NS);
+        const diagnostics = collection.get(evt.uri);
+        if (
+          !diagnostics?.some((it) =>
+            it.code === "no-cache" || it.code === "no-cache-npm"
+          )
+        ) {
+          return;
+        }
+
+        commands.executeCommand("deno.cache");
+      }
+    }),
     workspace.onDidChangeConfiguration((evt) => {
       if (evt.affectsConfiguration(EXTENSION_NS)) {
         client.sendNotification(

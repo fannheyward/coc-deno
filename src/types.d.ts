@@ -8,6 +8,8 @@ export interface Settings {
   /** Specify an explicit path to the `deno` cache instead of using DENO_DIR
    * or the OS default. */
   cache: string | null;
+  /** Controls if the extension should cache the active document's dependencies on save. */
+  cacheOnSave: boolean;
   /** Settings related to code lens. */
   codeLens: {
     implementations: boolean;
