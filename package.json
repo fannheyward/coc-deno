@@ -24,10 +24,10 @@
     "lint": "deno lint --unstable src"
   },
   "devDependencies": {
-    "@types/node": "20.5.7",
-    "@types/semver": "^7.3.4",
-    "coc.nvim": "^0.0.83-next.9",
-    "esbuild": "^0.19.2",
+    "@types/node": "16",
+    "@types/semver": "^7.5.3",
+    "coc.nvim": "^0.0.83-next.18",
+    "esbuild": "^0.19.4",
     "semver": "^7.3.5",
     "typescript": "^5.0.4"
   },
