@@ -21,19 +21,15 @@ jobs:
       NODE_ENV: test
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
       - uses: denoland/setup-deno@main
         with:
           deno-version: v1.x
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install yarn
+      - name: npm ci
         run: |
-          curl --compressed -o- -L https://yarnpkg.com/install.sh | bash
-          yarn
-      - name: yarn build
-        run: |
-          yarn fmt
-          yarn lint
+          npm ci
+          npm run lint

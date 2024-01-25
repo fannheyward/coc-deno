@@ -8,6 +8,7 @@ tsconfig.json
 diff.sh
 esbuild.js
 webpack.config.js
+package-lock.json
 yarn.lock
 yarn-error.log
 .vim
