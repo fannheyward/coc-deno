@@ -7,7 +7,7 @@
   "main": "./lib/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fannheyward/coc-deno.git"
+    "url": "git+https://github.com/fannheyward/coc-deno.git"
   },
   "keywords": [
     "coc.nvim",
