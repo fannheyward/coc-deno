@@ -18,7 +18,6 @@ import {
 } from "coc.nvim";
 import { EXTENSION_NS } from "./constants";
 import {
-  cache as cacheReq,
   reloadImportRegistries as reloadImportRegistriesReq,
   task as taskReq,
   virtualTextDocument,
@@ -32,29 +31,6 @@ export type Factory = (
   context: ExtensionContext,
   client: LanguageClient,
 ) => Callback;
-
-/** For the current document active in the editor tell the Deno LSP to cache
- * the file and all of its dependencies in the local cache. */
-export function cache(
-  _context: ExtensionContext,
-  client: LanguageClient,
-): Callback {
-  return async () => {
-    const { document } = await workspace.getCurrentState();
-    return window.withProgress({
-      title: "caching",
-      cancellable: true,
-    }, () => {
-      return client.sendRequest(
-        cacheReq,
-        {
-          referrer: { uri: document.uri.toString() },
-          uris: [],
-        },
-      );
-    });
-  };
-}
 
 export async function doInitialize() {
   const title = "Initialize Deno Project";
