@@ -155,7 +155,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     workspace.onDidSaveTextDocument((evt) => {
       const cacheOnSave = workspace.getConfiguration(EXTENSION_NS).get(
         "cacheOnSave",
-        false,
+        true,
       );
       if (cacheOnSave) {
         const collection = diagnosticManager.getCollectionByName(EXTENSION_NS);
