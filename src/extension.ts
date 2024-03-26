@@ -193,7 +193,6 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
   registerCommand("task", cmds.task);
   registerCommand("status", cmds.status);
   registerCommand("restart", cmds.restart);
-  registerCommand("reloadImportRegistries", cmds.reloadImportRegistries);
   registerCommand("initializeWorkspace", cmds.initializeWorkspace);
   commands.registerCommand(`${EXTENSION_NS}.test`, cmds.test, null, true);
   commands.registerCommand(

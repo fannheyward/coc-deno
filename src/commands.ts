@@ -18,7 +18,6 @@ import {
 } from "coc.nvim";
 import { EXTENSION_NS } from "./constants";
 import {
-  reloadImportRegistries as reloadImportRegistriesReq,
   task as taskReq,
   virtualTextDocument,
 } from "./lsp_extensions";
@@ -174,13 +173,6 @@ export function welcome(
   return () => {
     // TODO
   };
-}
-
-export function reloadImportRegistries(
-  _context: ExtensionContext,
-  client: LanguageClient,
-): Callback {
-  return () => client.sendRequest(reloadImportRegistriesReq);
 }
 
 export function restart(

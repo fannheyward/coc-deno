@@ -59,12 +59,6 @@
         "description": "List/Run Deno tasks"
       },
       {
-        "command": "deno.reloadImportRegistries",
-        "title": "Reload Import Registries Cache",
-        "category": "Deno",
-        "description": "Reload any cached import registry responses."
-      },
-      {
         "command": "deno.initializeWorkspace",
         "title": "Initialize Workspace Configuration",
         "category": "Deno",

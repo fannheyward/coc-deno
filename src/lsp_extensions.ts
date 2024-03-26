@@ -14,10 +14,6 @@ import {
   TextDocumentIdentifier,
 } from "coc.nvim";
 
-export const reloadImportRegistries = new RequestType0<boolean, void>(
-  "deno/reloadImportRegistries",
-);
-
 export interface RegistryStateParams {
   origin: string;
   suggestions: boolean;
