@@ -25,10 +25,8 @@
   },
   "devDependencies": {
     "@types/node": "16",
-    "@types/semver": "^7.5.3",
     "coc.nvim": "^0.0.83-next.18",
     "esbuild": "^0.20.0",
-    "semver": "^7.3.5",
     "typescript": "^5.0.4"
   },
   "activationEvents": [

@@ -8,7 +8,6 @@ import {
   ExtensionContext,
   LanguageClient,
   LanguageClientOptions,
-  LocationLink,
   ProviderResult,
   services,
   TextDocumentContentProvider,
@@ -17,7 +16,6 @@ import {
   window,
   workspace,
 } from "coc.nvim";
-import * as semver from "semver";
 import * as cmds from "./commands";
 import { EXTENSION_NS } from "./constants";
 import {
@@ -33,9 +31,6 @@ function assert(cond: unknown, msg = "Assertion failed."): asserts cond {
     throw new Error(msg);
   }
 }
-
-const SERVER_SEMVER = ">=1.9.0";
-const SERVER_SEMVER_1210 = "<=1.21.0";
 
 const settingsKeys: Array<keyof Settings> = [
   "cache",
@@ -91,7 +86,6 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
     options: { env: { ...process.env, "NO_COLOR": true } },
   };
 
-  const docSet = new Set<string>();
   const clientOptions: LanguageClientOptions = {
     documentSelector: [
       { scheme: "file", language: "json" },
@@ -120,23 +114,6 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
           data.uri = Uri.parse(fsPath.replace(pwd, "")).toString();
         }
         await next(data);
-      },
-      provideDefinition: async (document, position, token, next) => {
-        if (docSet.has(document.uri)) return;
-
-        docSet.add(document.uri);
-        const def = await next(document, position, token);
-        docSet.delete(document.uri);
-        if (semver.satisfies(serverVersion, SERVER_SEMVER_1210)) {
-          if (def && Array.isArray(def)) {
-            def.map((d) => {
-              if (LocationLink.is(d) && d.targetUri.startsWith("deno:asset")) {
-                d.targetUri = d.targetUri.replace("deno:asset", "deno:/asset");
-              }
-            });
-          }
-        }
-        return def;
       },
     },
   };
@@ -210,14 +187,6 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
   if (serverVersion) {
     statusBarItem.text = `Deno ${serverVersion}`;
     statusBarItem.show();
-  }
-  if (
-    semver.valid(serverVersion) &&
-    !semver.satisfies(serverVersion, SERVER_SEMVER)
-  ) {
-    window.showWarningMessage(
-      `The version of Deno ("${serverVersion}") does not meet the requirements of version ("${SERVER_SEMVER}"), please upgrade Deno.`,
-    );
   }
 }
 
