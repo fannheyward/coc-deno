@@ -1,6 +1,6 @@
 {
   "name": "coc-deno",
-  "version": "3.14.0",
+  "version": "3.15.0",
   "description": "Deno extension for coc.nvim, forked from vscode_deno",
   "author": "Heyward Fann <fannheyward@gmail.com>",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "build": "node esbuild.js",
     "watch": "node esbuild.js --watch",
     "fmt": "deno fmt src README.md",
-    "lint": "deno lint --unstable src"
+    "lint": "deno lint src"
   },
   "devDependencies": {
     "@types/node": "16",

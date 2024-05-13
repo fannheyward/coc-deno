@@ -17,10 +17,7 @@ import {
   workspace,
 } from "coc.nvim";
 import { EXTENSION_NS } from "./constants";
-import {
-  task as taskReq,
-  virtualTextDocument,
-} from "./lsp_extensions";
+import { task as taskReq, virtualTextDocument } from "./lsp_extensions";
 
 let terminal: Terminal | undefined;
 
@@ -34,11 +31,14 @@ export type Factory = (
 export function cacheActiveDocument(): Callback {
   return async () => {
     const { document } = await workspace.getCurrentState();
-    console.error(document.uri)
     return window.withProgress({
       title: "caching",
     }, () => {
-      return commands.executeCommand('deno.cache', [document.uri.toString()], document.uri.toString());
+      return commands.executeCommand(
+        "deno.cache",
+        [document.uri.toString()],
+        document.uri.toString(),
+      );
     });
   };
 }
