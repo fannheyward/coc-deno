@@ -20,7 +20,7 @@ Deno extension for coc.nvim, forked from
 
 ## Commands
 
-- `deno.cache`: Cache Dependencies
+- `deno.cacheActiveDocument`: Cache Dependencies
 - `deno.status`: Display language server status
 - `deno.task`: List/Run Deno tasks
 - `deno.initializeWorkspace`: Initialize workspace configuration for Deno

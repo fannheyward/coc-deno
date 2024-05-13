@@ -3,7 +3,6 @@
 import {
   CancellationToken,
   commands,
-  diagnosticManager,
   Executable,
   ExtensionContext,
   LanguageClient,
@@ -129,25 +128,6 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
   context.subscriptions.push(statusBarItem);
 
   context.subscriptions.push(
-    workspace.onDidSaveTextDocument((evt) => {
-      const cacheOnSave = workspace.getConfiguration(EXTENSION_NS).get(
-        "cacheOnSave",
-        true,
-      );
-      if (cacheOnSave) {
-        const collection = diagnosticManager.getCollectionByName(EXTENSION_NS);
-        const diagnostics = collection.get(evt.uri);
-        if (
-          !diagnostics?.some((it) =>
-            it.code === "no-cache" || it.code === "no-cache-npm"
-          )
-        ) {
-          return;
-        }
-
-        commands.executeCommand("deno.cache");
-      }
-    }),
     workspace.onDidChangeConfiguration((evt) => {
       if (evt.affectsConfiguration(EXTENSION_NS)) {
         client.sendNotification(
@@ -170,6 +150,7 @@ async function tryActivate(context: ExtensionContext): Promise<void> {
   registerCommand("task", cmds.task);
   registerCommand("status", cmds.status);
   registerCommand("restart", cmds.restart);
+  registerCommand("cacheActiveDocument", cmds.cacheActiveDocument);
   registerCommand("initializeWorkspace", cmds.initializeWorkspace);
   commands.registerCommand(`${EXTENSION_NS}.test`, cmds.test, null, true);
   commands.registerCommand(

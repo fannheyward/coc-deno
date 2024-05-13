@@ -31,6 +31,18 @@ export type Factory = (
   client: LanguageClient,
 ) => Callback;
 
+export function cacheActiveDocument(): Callback {
+  return async () => {
+    const { document } = await workspace.getCurrentState();
+    console.error(document.uri)
+    return window.withProgress({
+      title: "caching",
+    }, () => {
+      return commands.executeCommand('deno.cache', [document.uri.toString()], document.uri.toString());
+    });
+  };
+}
+
 export async function doInitialize() {
   const title = "Initialize Deno Project";
   const linting = "Enable Deno linting?";

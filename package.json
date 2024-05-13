@@ -39,6 +39,12 @@
   "contributes": {
     "commands": [
       {
+        "command": "deno.cacheActiveDocument",
+        "title": "Cache Dependencies",
+        "category": "Deno",
+        "description": "Cache the active workspace document and its dependencies."
+      },
+      {
         "command": "deno.status",
         "title": "Language Server Status",
         "category": "Deno",
