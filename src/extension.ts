@@ -15,6 +15,7 @@ import {
   window,
   workspace,
 } from "coc.nvim";
+import process from "node:process";
 import * as cmds from "./commands";
 import { EXTENSION_NS } from "./constants";
 import {
