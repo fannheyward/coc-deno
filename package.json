@@ -24,7 +24,7 @@
     "lint": "deno lint src"
   },
   "devDependencies": {
-    "@types/node": "16",
+    "@types/node": "22",
     "coc.nvim": "^0.0.83-next.18",
     "esbuild": "^0.24.0",
     "typescript": "^5.0.4"
